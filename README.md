@@ -137,8 +137,8 @@ FlashcardProject/
  mỗi class 1 cặp `.h`/`.cpp`, `main.cpp` chỉ chứa menu + gọi hàm từ các class — không nhét logic nghiệp vụ vào `main.cpp` để dễ chia việc trong nhóm (mỗi người phụ trách 1-2 class) và để Practical Exam luyện tách file quen tay.
 
 ## 7. Việc cần làm ngay
-- [ ] Chốt đội nhóm
-- [ ] Khởi tạo repo theo kiến trúc thư mục ở mục 6
+- [x] Chốt đội nhóm [Đặng Đức Duy, Phạm Xuân Dũng, Nguyễn Văn Quân]
+- [x] Khởi tạo repo theo kiến trúc thư mục ở mục 6 [Duy did at 29/09/2026]
 - [ ] Hỏi giảng viên cách hiểu CLO6 (bắt buộc gọi API AI hay không)
 - [ ] Hoàn thiện mô tả chức năng chi tiết cho Lab 1
 - [ ] Phân công vai trò trong nhóm theo từng Lab
