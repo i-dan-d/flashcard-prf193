@@ -1,55 +1,115 @@
 # PRF193 Final Project — Flashcard / Vocabulary Manager
 
-Ứng dụng console quản lý từ vựng cho môn **PRF193 – Programming Fundamentals (C/C++)**.
+## 1. Tổng quan môn học
+- Môn: **PRF193 – Programming Fundamentals (C/C++)**
+- Project là **dự án nhóm duy nhất**, xây dần qua 5 Lab (không phải 5 project riêng lẻ)
+- Đánh giá: Labs 20% + Final Project Evaluation 20% + Practical Exam 30% + Progress Test 10% + Theoretical Exam 20%
+- Final Project Evaluation: mỗi nhóm thuyết trình 30 phút + Q&A trước hội đồng (≥2 GV chấm), chấm theo rubric dựa trên final report + demo + Q&A
 
-## Thành viên
-
-- Duy
-- Dũng
-- Quân
-
-## Tổng quan
-
-Đây là dự án nhóm được phát triển qua 5 Lab, tập trung vào quản lý từ vựng và hỗ trợ học bằng phương pháp spaced repetition.
-
-## Chức năng chính
-
-- Thêm, sửa và xoá từ vựng
-- Tìm kiếm theo từ khoá hoặc nghĩa
-- Liệt kê và sắp xếp theo alphabet hoặc mức độ ghi nhớ
-- Đánh dấu từ đã học và lên lịch ôn lại
-- Sinh câu ví dụ bằng AI, tuỳ yêu cầu CLO6
-- Import/Export danh sách từ bằng CSV
-
-## Thiết kế dự kiến
-
-- `Word`: lớp cơ sở lưu term, meaning, review count và next review date
-- `VocabularyWord`, `PhraseWord`: kế thừa `Word` và override `getExampleSentence()`
-- `Deck`: quản lý danh sách từ vựng
-
-Dự án áp dụng OOP, kế thừa, polymorphism, STL, smart pointer, exception handling và file handling.
-
-## Lộ trình phát triển
-
-| Lab | Nội dung |
+## 2. CLO cần đáp ứng
+| CLO | Nội dung |
 |---|---|
-| Lab 1 | Phân tích chức năng và mô tả input/output |
-| Lab 2 | Flowchart cho Add Word, Search Word và Spaced Repetition |
-| Lab 3 | Phiên bản thủ tục với `struct`, mảng/con trỏ và các hàm xử lý |
-| Lab 4 | Refactor sang OOP, STL, kế thừa, polymorphism và exception |
-| Lab 5 | Đọc/ghi file, Import/Export CSV và viết test case |
+| CLO1 | Cú pháp cơ bản C/C++: kiểu dữ liệu, biến, toán tử, string, array, pointer |
+| CLO2 | Cấu trúc điều khiển: if-else, switch, for/while/do-while, break/continue/goto |
+| CLO3 | Hàm: định nghĩa/khai báo, modular, đệ quy, function pointer, truyền tham số |
+| CLO4 | OOP: encapsulation, inheritance, polymorphism; con trỏ động/smart pointer; tránh memory leak; constructor/destructor, template, exception |
+| CLO5 | File handling: đọc/ghi text & binary, random access |
+| CLO6 | Dùng AI Tools & Computational Thinking để phân tích/mô hình hoá/giải quyết vấn đề — **cần hỏi lại giảng viên: có bắt buộc gọi API AI thật trong code hay chỉ cần thể hiện qua quá trình làm bài (dùng ChatGPT/Copilot hỗ trợ)** |
 
-## Công cụ và thư viện
+## 3. Ý tưởng đề tài: Flashcard / Vocabulary Manager
+Ứng dụng console quản lý từ vựng — chọn vì có đủ chỗ tự nhiên cho OOP (kế thừa loại từ), file I/O (lưu bộ từ), và tích hợp AI (sinh câu ví dụ) để thoả CLO6.
 
-- C++11 trở lên
-- Visual Studio, VS Code + MinGW, Code::Blocks hoặc CLion
-- Git và GitHub/GitLab
-- Thư viện chuẩn: `<string>`, `<vector>`, `<map>`, `<algorithm>`, `<fstream>`, `<sstream>`, `<memory>`, `<exception>`
-- Nếu tích hợp AI: `libcurl` hoặc `cpp-httplib`, `nlohmann/json` và API phù hợp
+### Class dự kiến
+- `Word` (lớp cha): term, meaning, reviewCount, nextReviewDate
+- `VocabularyWord`, `PhraseWord` (kế thừa từ `Word`) — override hàm `getExampleSentence()` → polymorphism
+- `Deck`: quản lý danh sách `Word` (dùng `std::vector<Word*>` hoặc `std::map<string, Word>`)
 
-## Việc cần làm
+### Chức năng chính
+- Add / Edit / Delete từ vựng
+- Search theo từ khoá hoặc nghĩa
+- List / Sort (alphabet, mức độ nhớ)
+- Đánh dấu "đã học" + lên lịch ôn lại (spaced repetition đơn giản)
+- Sinh câu ví dụ tự động bằng AI (CLO6)
+- Import/Export danh sách từ (CSV)
 
-- [ ] Hoàn thiện mô tả chức năng cho Lab 1
-- [ ] Hỏi giảng viên về yêu cầu tích hợp AI trong CLO6
-- [ ] Phân công vai trò theo từng Lab
-- [ ] Thiết kế và triển khai chương trình
+## 4. Lộ trình theo Lab
+| Lab | Tuần | Nội dung chuẩn bị |
+|---|---|---|
+| Lab 1 | 2 | Phân tích chức năng — mô tả input/output từng chức năng ở mục 3 |
+| Lab 2 | 4 | Flowchart cho Add Word, Search Word, luồng Spaced Repetition |
+| Lab 3 | 6 (trước PT1) | Code **thủ tục, chưa OOP**: `struct Word`, mảng/con trỏ, hàm addWord/searchWord/sortWords/printAll |
+| Lab 4 | 8 | Refactor sang OOP: class + kế thừa + polymorphism, STL (`vector`/`map`), exception handling, smart pointer |
+| Lab 5 | 9 | Đọc/ghi file (text/binary), Import/Export CSV, viết test case cho từng chức năng |
+
+## 5. Công cụ & thư viện
+**Bắt buộc**
+- IDE: Visual Studio Community / VS Code + MinGW / Code::Blocks / CLion
+- Compiler hỗ trợ C++11 trở lên
+
+**Thư viện chuẩn (STL)**
+- `<string>`, `<vector>` / `<map>`, `<algorithm>` (sort/find)
+- `<fstream>`, `<sstream>` — đọc/ghi file
+- `<memory>` — `unique_ptr`/`shared_ptr`
+- `<stdexcept>` / `<exception>`
+
+**Quản lý code nhóm**
+- Git + GitHub/GitLab
+
+**Nếu tích hợp AI thật (tuỳ theo câu trả lời của giảng viên về CLO6)**
+- `libcurl` hoặc `cpp-httplib` — gửi HTTP request
+- `nlohmann/json` — parse JSON response
+- API key OpenAI/Gemini/Anthropic (free tier đủ demo)
+
+## 6. Kiến trúc thư mục dự án
+
+### Giai đoạn Lab 3 (chưa OOP — kiểu thủ tục)
+```
+FlashcardProject/
+├── main.cpp          # toàn bộ logic: struct Word, mảng, các hàm add/search/sort/print
+└── README.md
+```
+Giai đoạn này cố tình để phẳng (không tách file) vì chưa học class — tách quá sớm sẽ khó merge lại đúng chuẩn OOP ở Lab4.
+
+### Giai đoạn cuối (sau Lab 4-5 — OOP + STL + File)
+```
+FlashcardProject/
+├── README.md
+├── CMakeLists.txt              # hoặc Makefile / file .sln nếu dùng Visual Studio
+├── .gitignore
+├── docs/
+│   ├── lab1_function_analysis.md
+│   ├── lab2_flowcharts/         # ảnh/pdf flowchart từ Lab2
+│   └── final_report.md         # báo cáo nộp cho buổi bảo vệ
+├── include/                     # header (.h) — khai báo class
+│   ├── Word.h
+│   ├── VocabularyWord.h         # kế thừa từ Word
+│   ├── PhraseWord.h             # kế thừa từ Word
+│   ├── Deck.h                   # quản lý vector<Word*>/map<string,Word>
+│   ├── FileManager.h            # đọc/ghi file (Lab5)
+│   └── AIService.h              # gọi API sinh câu ví dụ (nếu CLO6 yêu cầu gọi API thật)
+├── src/                          # implementation (.cpp)
+│   ├── main.cpp                 # entry point, menu điều khiển
+│   ├── Word.cpp
+│   ├── VocabularyWord.cpp
+│   ├── PhraseWord.cpp
+│   ├── Deck.cpp
+│   ├── FileManager.cpp
+│   └── AIService.cpp
+├── data/
+│   ├── words.csv                # dữ liệu dạng text
+│   └── words.bin                # dữ liệu dạng binary (demo random access, CLO5)
+├── tests/
+│   └── test_cases.cpp           # test case cho add/search/sort/spaced repetition (Lab5)
+└── lib/                          # thư viện ngoài header-only nếu có
+    ├── json.hpp                  # nlohmann/json (nếu gọi AI API)
+    └── httplib.h                 # cpp-httplib (nếu gọi AI API)
+```
+
+**Nguyên tắc tách file:** mỗi class 1 cặp `.h`/`.cpp`, `main.cpp` chỉ chứa menu + gọi hàm từ các class — không nhét logic nghiệp vụ vào `main.cpp` để dễ chia việc trong nhóm (mỗi người phụ trách 1-2 class) và để Practical Exam luyện tách file quen tay.
+
+## 7. Việc cần làm ngay
+- [ ] Chốt đội nhóm
+- [ ] Khởi tạo repo theo kiến trúc thư mục ở mục 6
+- [ ] Hỏi giảng viên cách hiểu CLO6 (bắt buộc gọi API AI hay không)
+- [ ] Hoàn thiện mô tả chức năng chi tiết cho Lab 1
+- [ ] Phân công vai trò trong nhóm theo từng Lab
