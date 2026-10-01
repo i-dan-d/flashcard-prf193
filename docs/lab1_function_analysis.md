@@ -1,21 +1,35 @@
 # Lab 1 — Function Analysis: Flashcard / Vocabulary Manager
 
-Môn: PRF193 | Nhóm: git
+Môn: PRF193 | Nhóm: BetterMan
 ## Mục đích tài liệu
 Phân tích chi tiết input/output, điều kiện, và ngoại lệ cho từng chức năng chính của ứng dụng, làm cơ sở cho Lab 2 (flowchart) và Lab 3-5 (code).
 
 ---
 
-## 1. Add Word
+### 1. Add Word
+**Mô tả:** Thêm một từ vựng mới vào Deck
+**Tiền điều kiện:** Deck đã được nạp
+**Hậu điều kiện:** Deck có thêm 1 Word mới (nếu thành công)
 
-| Mục | Nội dung |
+**Luồng chính**:
+1. Người dùng chọn Add Word từ menu
+2. Hệ thống yêu cầu nhập `term`, `partOfSpeech`, `meaning`, `type`
+3. Hệ thống kiểm tra `term` đã tồn tại chưa (không phân biệt hoa/thường)
+4. Nếu chưa tồn tại → tạo object `Word`, thêm vào Deck, lưu file
+5. Hệ thống hỏi `progress` ('c' = tiếp tục / 'q' = thoát)
+6. Nếu 'c' → quay lại bước 2; nếu 'q' → kết thúc, về menu
+
+**Luồng rẽ nhánh:**
+- Tại bước 2: nếu `term`/`meaning` rỗng → từ chối, yêu cầu nhập lại
+- Tại bước 3: nếu `term` đã tồn tại → báo lỗi trùng, quay lại bước 2
+- Tại bước 5: nếu `progress` khác 'c'/'q' → báo lỗi, hỏi lại
+
+| Input | Output |
 |---|---|
-| Mô tả | Thêm một từ vựng mới vào Deck |
-| Input | `term` (chuỗi, không rỗng), `meaning` (chuỗi, không rỗng), `type` (Vocabulary / Phrase) |
-| Output | Thông báo thành công và object `Word` mới được thêm vào Deck; hoặc thông báo lỗi nếu trùng |
-| Điều kiện tiên quyết | `term` chưa tồn tại trong Deck (phân biệt hoa/thường tuỳ quy ước nhóm chọn) |
-| Ngoại lệ | `term`/`meaning` rỗng → từ chối nhập, yêu cầu nhập lại; `term` đã tồn tại → báo lỗi trùng, không thêm |
-| CLO liên quan | CLO1 (string), CLO4 (tạo object, OOP) |
+| term, partOfSpeech, meaning, type | Word mới + thông báo kết quả |
+| progress ('c'/'q') | Điều hướng: quay lại bước 2 hoặc kết thúc |
+
+**CLO liên quan:** CLO1 (string), CLO4 (OOP)
 
 ## 2. Edit Word
 
