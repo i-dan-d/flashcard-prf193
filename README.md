@@ -53,7 +53,7 @@
 - `<stdexcept>` / `<exception>`
 
 **Quản lý code nhóm**
-- Git + GitHub/GitLab
+- Git + GitHub
 
 **Nếu tích hợp AI thật (tuỳ theo câu trả lời của giảng viên về CLO6)**
 - `libcurl` hoặc `cpp-httplib` — gửi HTTP request
@@ -135,10 +135,3 @@ FlashcardProject/
 | `lib/httplib.h` | Thư viện cpp-httplib (header-only) để gửi HTTP request tới AI API |
 
  mỗi class 1 cặp `.h`/`.cpp`, `main.cpp` chỉ chứa menu + gọi hàm từ các class — không nhét logic nghiệp vụ vào `main.cpp` để dễ chia việc trong nhóm (mỗi người phụ trách 1-2 class) và để Practical Exam luyện tách file quen tay.
-
-## 7. Việc cần làm ngay
-- [x] Chốt đội nhóm [Đặng Đức Duy, Phạm Xuân Dũng, Nguyễn Văn Quân]
-- [x] Khởi tạo repo theo kiến trúc thư mục ở mục 6 [Duy did at 29/09/2026]
-- [ ] Hỏi giảng viên cách hiểu CLO6 (bắt buộc gọi API AI hay không)
-- [ ] Hoàn thiện mô tả chức năng chi tiết cho Lab 1
-- [ ] Phân công vai trò trong nhóm theo từng Lab
