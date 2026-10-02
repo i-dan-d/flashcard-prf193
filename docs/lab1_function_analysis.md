@@ -15,7 +15,7 @@ Phân tích chi tiết input/output, điều kiện, và ngoại lệ cho từng
 1. Người dùng chọn Add Word từ menu
 2. Hệ thống yêu cầu nhập `term`, `partOfSpeech`, `meaning`
 3. Hệ thống kiểm tra `term` đã tồn tại chưa (không phân biệt hoa/thường)
-4. Nếu chưa tồn tại → tự động xác định `type` cho `term`, tạo object `Word`, thêm vào Deck, lưu file
+4. Nếu chưa tồn tại → tự động xác định `type` cho `term`, tạo object `Word`+`IdWord`, thêm vào Deck, lưu file
 5. Hệ thống hỏi `progress` ('c' = tiếp tục / 'q' = thoát)
 6. Nếu 'c' → quay lại bước 2; nếu 'q' → kết thúc, về menu
 
@@ -32,26 +32,30 @@ Phân tích chi tiết input/output, điều kiện, và ngoại lệ cho từng
 **CLO liên quan:** CLO1 (string), CLO4 (OOP)
 
 ## 2. Edit Word
+**Mô tả:** Chỉnh sửa hoặc xóa Word
+**Tiền điều kiện:** Term được muốn chỉnh sửa phải bắt buộc có trong Deck
+**Hậu điều kiện:** Deck cập nhật dữ liệu đã chỉnh sửa hoặc xóa
 
-| Mục | Nội dung |
+**Luồng chính**:
+1. Người dùng chọn Edit Word từ menu
+2. Hệ thống yêu cầu nhập `keyword`
+3. Hệ thống gọi chức năng `Search Word` rồi trả về word list từ `keyword` mà người dụng nhập
+4. Hệ thống yêu cầu nhập `term`
+5. Hệ thống kiểm tra xem có `term` có thuộc word list không.
+6. Nếu `term` có nằm trong word list -> Edit Word (người dùng chọn edit `meaning`/`term`/`delete word`)
+7. Hệ thống cập nhật những dữ liệu và chỉnh sửa chính xác `word` dựa vào `IdWord`&`term`
+
+**Luồng rẽ nhánh:**
+- Tại bước 5: Nếu `term` không thuộc word list -> Hỏi xem người dùng muốn quay lại `SearchWord` để lấy word list mưới hay là chỉ quay lại bước nhập `term`
+
+| Input | Output |
 |---|---|
-| Mô tả | Sửa `meaning` hoặc `type` của một từ đã có |
-| Input | `term` cần sửa, giá trị mới cho `meaning`/`type` |
-| Output | Từ được cập nhật trong Deck; thông báo thành công |
-| Điều kiện tiên quyết | `term` phải tồn tại trong Deck |
-| Ngoại lệ | Không tìm thấy `term` → báo lỗi "không tồn tại", không thực hiện sửa |
-| CLO liên quan | CLO4 (truy cập/sửa đổi object qua con trỏ/reference) |
+| keyword | word list gọi từ chức năng SearchWord với tham số keyword |
+| term | term có thuộc word list vừa tìm được không|
+| progress (w/t) | w -> Quay lại bước 2; t -> quay lại bước 4|
+**CLO liên quan CLO4** (truy cập/sửa đổi object qua con trỏ/reference)
 
-## 3. Delete Word
 
-| Mục | Nội dung |
-|---|---|
-| Mô tả | Xoá một từ khỏi Deck |
-| Input | `term` cần xoá |
-| Output | Từ bị xoá khỏi Deck; thông báo thành công |
-| Điều kiện tiên quyết | `term` phải tồn tại |
-| Ngoại lệ | Không tìm thấy `term` → báo lỗi, không xoá; cần giải phóng bộ nhớ đúng cách nếu Word được cấp phát động (tránh memory leak) |
-| CLO liên quan | CLO4 (quản lý bộ nhớ động) |
 
 ## 4. Search Word
 **Mô tả:** Tra từ vựng hoặc câu tương ứng trong Deck
@@ -86,15 +90,25 @@ Phân tích chi tiết input/output, điều kiện, và ngoại lệ cho từng
 | CLO liên quan | CLO4 (STL `algorithm::sort` với comparator tuỳ chỉnh) |
 
 ## 6. Review (Spaced Repetition)
+**Mô tả:** Người dùng học từ bằng phương pháp lập lại ngắt quãng
+**Tiền điều kiện:** Hiển thị word cần ôn lại tại thời điểm study (nếu tồn tại)
+**Hậu điều kiện:** Deck cập nhật dữ liệu thời gian ôn của từng word dựa trên câu trả lời đúng/sai của người dùng(nếu có)
 
-| Mục | Nội dung |
+**Luồng chính**:
+1. Người dùng chọn Study Word từ menu
+2. Hệ thống lọc word đến hạn hôm nay
+3. Hệ thống kiểm tra còn word đến hạn cần ôn trong Deck không.
+4. Nếu còn word cần ôn -> Chọn Word có thời hạn sớm nhất -> Hiển thị `term` và người dùng nhập câu trả lời `answer` (không phân biệt chữ hoa/thường).
+5. Hệ thống cập nhật lịch ôn dựa trên đúng/sai của câu trả lời rồi quay lại bước 3
+
+**Luồng rẽ nhánh:**
+- Tại bước 3: Nếu không có word nào ở trong Deck đến hạn cần ôn trong hôm nay -> Báo không có word đến hạn -> Kết thúc
+
+| Input | Output |
 |---|---|
-| Mô tả | Lọc các từ có `nextReviewDate <= hôm nay`, hiển thị lần lượt, nhận phản hồi đúng/sai, cập nhật lại lịch ôn |
-| Input | Phản hồi đúng/sai của người dùng cho mỗi từ được hỏi |
-| Output | `reviewCount` và `nextReviewDate` của từ được cập nhật; thông báo hoàn thành phiên ôn khi hết từ |
-| Điều kiện tiên quyết | Có ít nhất 1 từ đến hạn ôn hôm nay |
-| Ngoại lệ | Không có từ nào đến hạn → thông báo "không có từ cần ôn hôm nay", không vào vòng lặp review |
-| CLO liên quan | CLO2 (vòng lặp, điều kiện), CLO4 (OOP, cập nhật state object) |
+| answer | câu trả lời cho term. tương ứng là meaning của term đó|
+
+**CLO liên quan** CLO2 (vòng lặp, điều kiện), CLO4 (OOP, cập nhật state object)
 
 ## 7. Generate Example Sentence (AI)
 

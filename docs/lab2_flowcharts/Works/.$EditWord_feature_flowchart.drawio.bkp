@@ -1,0 +1,92 @@
+<mxfile host="Electron">
+  <diagram name="Page-1" id="k4jzDRUmZ4WC-Qz9808r">
+    <mxGraphModel dx="2010" dy="1545" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="7f9P2NYVHvkeTNOarLyW-17" edge="1" parent="1" source="7f9P2NYVHvkeTNOarLyW-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="7f9P2NYVHvkeTNOarLyW-4" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="7f9P2NYVHvkeTNOarLyW-1" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;" value="Start" vertex="1">
+          <mxGeometry height="70" width="150" x="220" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="7f9P2NYVHvkeTNOarLyW-16" edge="1" parent="1" source="7f9P2NYVHvkeTNOarLyW-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="7f9P2NYVHvkeTNOarLyW-5" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="7f9P2NYVHvkeTNOarLyW-2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;b&gt;Search Word&lt;/b&gt;&lt;br&gt;&amp;amp; in ra word list" vertex="1">
+          <mxGeometry height="60" width="160" x="215" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="7f9P2NYVHvkeTNOarLyW-15" edge="1" parent="1" source="7f9P2NYVHvkeTNOarLyW-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="7f9P2NYVHvkeTNOarLyW-2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="7f9P2NYVHvkeTNOarLyW-4" parent="1" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;shapeInside=1;fixedSize=1;fontStyle=1" value="string KeyWord" vertex="1">
+          <mxGeometry height="60" width="120" x="235" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="7f9P2NYVHvkeTNOarLyW-10" edge="1" parent="1" source="7f9P2NYVHvkeTNOarLyW-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="7f9P2NYVHvkeTNOarLyW-7" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="7f9P2NYVHvkeTNOarLyW-5" parent="1" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;shapeInside=1;fixedSize=1;fontStyle=1" value="string Term" vertex="1">
+          <mxGeometry height="60" width="120" x="235" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="7f9P2NYVHvkeTNOarLyW-12" edge="1" parent="1" source="7f9P2NYVHvkeTNOarLyW-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="7f9P2NYVHvkeTNOarLyW-18" value="Không">
+          <mxGeometry relative="1" x="-0.2727" y="10" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="395" y="610" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7f9P2NYVHvkeTNOarLyW-21" edge="1" parent="1" source="7f9P2NYVHvkeTNOarLyW-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="7f9P2NYVHvkeTNOarLyW-20" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="7f9P2NYVHvkeTNOarLyW-7" parent="1" style="rhombus;whiteSpace=wrap;html=1;shapeInside=1;fontStyle=1" value="Term có trong word list không?" vertex="1">
+          <mxGeometry height="80" width="170" x="210" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="7f9P2NYVHvkeTNOarLyW-11" parent="1" style="rhombus;whiteSpace=wrap;html=1;shapeInside=1;fontStyle=1" value="Quay lại searchWord hay input Term?" vertex="1">
+          <mxGeometry height="80" width="180" x="590" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="7f9P2NYVHvkeTNOarLyW-13" edge="1" parent="1" source="7f9P2NYVHvkeTNOarLyW-11" style="edgeStyle=none;orthogonalLoop=1;jettySize=auto;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="7f9P2NYVHvkeTNOarLyW-5" value="(t)Input Term">
+          <mxGeometry relative="1" width="100" x="-0.4568" y="30" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="680" y="470" />
+            </Array>
+            <mxPoint x="425" y="300" as="sourcePoint" />
+            <mxPoint x="525" y="300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7f9P2NYVHvkeTNOarLyW-14" edge="1" parent="1" source="7f9P2NYVHvkeTNOarLyW-11" style="edgeStyle=none;orthogonalLoop=1;jettySize=auto;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="7f9P2NYVHvkeTNOarLyW-4" value="(w)SearchWord">
+          <mxGeometry relative="1" width="100" x="-0.7852" y="40" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="770" y="260" />
+            </Array>
+            <mxPoint x="505" y="340" as="sourcePoint" />
+            <mxPoint x="605" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7f9P2NYVHvkeTNOarLyW-19" edge="1" parent="1" source="7f9P2NYVHvkeTNOarLyW-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="7f9P2NYVHvkeTNOarLyW-11" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="7f9P2NYVHvkeTNOarLyW-18" parent="1" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;shapeInside=1;fixedSize=1;fontStyle=1" value="char progress&lt;br&gt;&lt;span style=&quot;font-weight: normal;&quot;&gt;(w/t)&lt;/span&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="425" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="7f9P2NYVHvkeTNOarLyW-23" edge="1" parent="1" source="7f9P2NYVHvkeTNOarLyW-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="7f9P2NYVHvkeTNOarLyW-24" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="295" y="780" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7f9P2NYVHvkeTNOarLyW-20" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;b&gt;Edit Word&lt;/b&gt;&lt;br&gt;meaning/term/delete" vertex="1">
+          <mxGeometry height="60" width="120" x="235" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="7f9P2NYVHvkeTNOarLyW-26" edge="1" parent="1" source="7f9P2NYVHvkeTNOarLyW-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="7f9P2NYVHvkeTNOarLyW-25" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="7f9P2NYVHvkeTNOarLyW-24" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1" value="Cập nhật&lt;br&gt;&lt;span style=&quot;font-weight: 400;&quot;&gt;word dựa vào IdWord &amp;amp; Term&lt;/span&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="235" y="790" as="geometry" />
+        </mxCell>
+        <mxCell id="7f9P2NYVHvkeTNOarLyW-25" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;" value="Kết thúc" vertex="1">
+          <mxGeometry height="70" width="150" x="220" y="900" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
