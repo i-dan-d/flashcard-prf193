@@ -7,15 +7,15 @@ Phân tích chi tiết input/output, điều kiện, và ngoại lệ cho từng
 ---
 
 ### 1. Add Word
-**Mô tả:** Thêm một từ vựng mới vào Deck
+**Mô tả:** Thêm một từ vựng hoặc câu mới vào Deck
 **Tiền điều kiện:** Deck đã được nạp
 **Hậu điều kiện:** Deck có thêm 1 Word mới (nếu thành công)
 
 **Luồng chính**:
 1. Người dùng chọn Add Word từ menu
-2. Hệ thống yêu cầu nhập `term`, `partOfSpeech`, `meaning`, `type`
+2. Hệ thống yêu cầu nhập `term`, `partOfSpeech`, `meaning`
 3. Hệ thống kiểm tra `term` đã tồn tại chưa (không phân biệt hoa/thường)
-4. Nếu chưa tồn tại → tạo object `Word`, thêm vào Deck, lưu file
+4. Nếu chưa tồn tại → tự động xác định `type` cho `term`, tạo object `Word`, thêm vào Deck, lưu file
 5. Hệ thống hỏi `progress` ('c' = tiếp tục / 'q' = thoát)
 6. Nếu 'c' → quay lại bước 2; nếu 'q' → kết thúc, về menu
 
@@ -54,15 +54,25 @@ Phân tích chi tiết input/output, điều kiện, và ngoại lệ cho từng
 | CLO liên quan | CLO4 (quản lý bộ nhớ động) |
 
 ## 4. Search Word
+**Mô tả:** Tra từ vựng hoặc câu tương ứng trong Deck
+**Tiền điều kiện:** Tra được từ vựng hoặc câu trong Deck (nếu word đó tồn tại trong deck)
+**Hậu điều kiện:** Deck vẫn giữ nguyên dữ liệu
 
-| Mục | Nội dung |
+**Luồng chính**:
+1. Người dùng chọn Search Word từ menu
+2. Hệ thống yêu cầu người dùng nhập `key` để tìm kiếm Word
+3. Hệ thống kiểm tra `key` đấy có trong word nào trong Deck không(Không phân biệt hoa/thường).
+4. Hệ thống kiểm tra xem `key` đấy có tương đồng với Word nào trong Deck không.
+5. Nếu tìm thấy -> Hiển thị kết quả -> Kết thúc -> Trả về danh sách các word tìm kiếm được trong Deck
+
+**Luồng rẽ nhánh:**
+- Tại bước 3: nếu `key` không có trong Deck → báo cáo không có trong Deck -> Kết thúc
+
+| Input | Output |
 |---|---|
-| Mô tả | Tìm một hoặc nhiều từ theo từ khoá (khớp `term` hoặc `meaning`) |
-| Input | `keyword` (chuỗi) |
-| Output | Danh sách các `Word` khớp (có thể rỗng); hiển thị term + meaning + example sentence |
-| Điều kiện tiên quyết | Deck đã được nạp (không rỗng) |
-| Ngoại lệ | Không tìm thấy → hiển thị "không tìm thấy", không phải lỗi dừng chương trình |
-| CLO liên quan | CLO1-2 (string, điều kiện), STL `find`/`algorithm` (CLO4) |
+| key | Các Word có tính tương đầu với key |
+
+**CLO liên quan:** CLO1-2 (string, điều kiện), STL `find`/`algorithm` (CLO4)
 
 ## 5. List All & Sort
 
