@@ -1,0 +1,62 @@
+<mxfile host="Electron">
+  <diagram name="Page-1" id="qk4_QQBbh7EQ5Qm5idDz">
+    <mxGraphModel dx="1471" dy="894" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Cz-54fhGNishG0AW2r8G-6" edge="1" parent="1" source="Cz-54fhGNishG0AW2r8G-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="Cz-54fhGNishG0AW2r8G-4" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Cz-54fhGNishG0AW2r8G-1" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" value="Bắt đầu" vertex="1">
+          <mxGeometry height="80" width="150" x="320" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="Cz-54fhGNishG0AW2r8G-2" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" value="Kết thúc" vertex="1">
+          <mxGeometry height="80" width="120" x="335" y="820" as="geometry" />
+        </mxCell>
+        <mxCell id="Cz-54fhGNishG0AW2r8G-11" edge="1" parent="1" source="Cz-54fhGNishG0AW2r8G-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="Cz-54fhGNishG0AW2r8G-9" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Cz-54fhGNishG0AW2r8G-3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="&lt;b&gt;Load Deck&lt;br&gt;&lt;/b&gt;từ words.bin" vertex="1">
+          <mxGeometry height="60" width="120" x="335" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="Cz-54fhGNishG0AW2r8G-7" edge="1" parent="1" source="Cz-54fhGNishG0AW2r8G-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="Cz-54fhGNishG0AW2r8G-5" value="Không">
+          <mxGeometry relative="1" x="-0.1111" y="-10" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Cz-54fhGNishG0AW2r8G-8" edge="1" parent="1" source="Cz-54fhGNishG0AW2r8G-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="Cz-54fhGNishG0AW2r8G-3" value="Có">
+          <mxGeometry relative="1" x="-0.1429" y="15" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Cz-54fhGNishG0AW2r8G-4" parent="1" style="rhombus;whiteSpace=wrap;html=1;shapeInside=1;fontStyle=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="words.bin đúng định dạng và tồn tại không?" vertex="1">
+          <mxGeometry height="80" width="150" x="320" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="Cz-54fhGNishG0AW2r8G-5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Creat words.bin" vertex="1">
+          <mxGeometry height="60" width="120" x="560" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="Cz-54fhGNishG0AW2r8G-12" edge="1" parent="1" source="Cz-54fhGNishG0AW2r8G-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="Cz-54fhGNishG0AW2r8G-10" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Cz-54fhGNishG0AW2r8G-9" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Run program" vertex="1">
+          <mxGeometry height="60" width="120" x="335" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="Cz-54fhGNishG0AW2r8G-13" edge="1" parent="1" source="Cz-54fhGNishG0AW2r8G-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="Cz-54fhGNishG0AW2r8G-2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Cz-54fhGNishG0AW2r8G-10" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="&lt;b&gt;Save Deck&amp;nbsp;&lt;/b&gt;&lt;br&gt;ra words.bin" vertex="1">
+          <mxGeometry height="60" width="120" x="335" y="710" as="geometry" />
+        </mxCell>
+        <mxCell id="Cz-54fhGNishG0AW2r8G-14" edge="1" parent="1" source="Cz-54fhGNishG0AW2r8G-5" style="edgeStyle=none;orthogonalLoop=1;jettySize=auto;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="Cz-54fhGNishG0AW2r8G-3" value="">
+          <mxGeometry relative="1" width="100" as="geometry">
+            <Array as="points">
+              <mxPoint x="620" y="490" />
+            </Array>
+            <mxPoint x="540" y="510" as="sourcePoint" />
+            <mxPoint x="640" y="510" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
