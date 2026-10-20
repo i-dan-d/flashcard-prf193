@@ -1,11 +1,11 @@
 # Lab 1 — Function Analysis: Flashcard / Vocabulary Manager
 
-M�n: PRF193 | Nhóm: BetterMan
+Môn: PRF193 | Nhóm: BetterMan
 
 ## Mục đích tài liệu
 Phân tích chi tiết luồng xử lý, input/output, điều kiện, và ngoại lệ cho từng chức năng chính của ứng dụng, làm cơ sở cho Lab 2 (flowchart) và Lab 3-5 (code).
 
-> **CLO6 (AI Tools):** đã xác nhận với giảng viên — không cần code gọi AI API trong chương trình. CLO6 thể hiện qua `docs/ai_usage_log.md`, ghi lại quá trình nhóm dùng AI hỗ trợ làm dự án, không phải một chức năng của app nên không có mục riêng trong tài liệu này.
+> **CLO6 (AI Tools):** CLO6 thể hiện qua `docs/ai_usage_log.md`, ghi lại quá trình nhóm dùng AI hỗ trợ làm dự án, không phải một chức năng của app nên không có mục riêng trong tài liệu này.
 
 ---
 

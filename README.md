@@ -29,7 +29,6 @@
 - Search theo từ khoá hoặc nghĩa
 - List / Sort (alphabet, mức độ nhớ)
 - Đánh dấu "đã học" + lên lịch ôn lại (spaced repetition đơn giản)
-- Sinh câu ví dụ tự động bằng AI (CLO6)
 - Import/Export danh sách từ (CSV)
 
 ## 4. Lộ trình theo Lab
