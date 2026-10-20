@@ -25,11 +25,11 @@
 - `Deck`: quản lý danh sách `Word` (dùng `std::vector<Word*>` hoặc `std::map<string, Word>`)
 
 ### Chức năng chính
-- Add / Edit / Delete từ vựng
-- Search theo từ khoá hoặc nghĩa
-- List / Sort (alphabet, mức độ nhớ)
-- Đánh dấu "đã học" + lên lịch ôn lại (spaced repetition đơn giản)
-- Import/Export danh sách từ (CSV)
+- Add / Edit / Delete từ vựng(1) - Duy
+- Search theo từ khoá hoặc nghĩa(2) - Quân
+- List / Sort (alphabet, mức độ nhớ)(3) - Dũng
+- Đánh dấu "đã học" + lên lịch ôn lại (spaced repetition đơn giản)(4) - Duy
+- Import/Export danh sách từ (CSV)(5) - Duy
 
 ## 4. Lộ trình theo Lab
 | Lab | Tuần | Nội dung chuẩn bị |
