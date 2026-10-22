@@ -30,7 +30,7 @@
 - List / Sort (alphabet, mức độ nhớ)(3) - Dũng
 - Đánh dấu "đã học" + lên lịch ôn lại (spaced repetition đơn giản)(4) - Duy
 - Import/Export danh sách từ (CSV)(5) - Duy
-
+- Save / Load words.bin (tự động khi mở và thoát chương trình)(6) - chưa giao (đề xuất Dũng)
 ## 4. Lộ trình theo Lab
 | Lab | Tuần | Nội dung chuẩn bị |
 |---|---|---|
@@ -93,7 +93,7 @@ FlashcardProject/
 │   ├── PhraseWord.cpp
 │   ├── Deck.cpp
 │   ├── FileManager.cpp
-│   └── AIService.cpp
+│ 
 ├── data/
 │   ├── words.csv                # dữ liệu dạng text
 │   └── words.bin                # dữ liệu dạng binary (demo random access, CLO5)
@@ -119,18 +119,14 @@ FlashcardProject/
 | `include/PhraseWord.h` | Khai báo class kế thừa `Word`, override cách sinh câu ví dụ cho cụm từ |
 | `include/Deck.h` | Khai báo class `Deck`: quản lý tập hợp `Word` (add/remove/search/sort), dùng STL container |
 | `include/FileManager.h` | Khai báo các hàm đọc/ghi file (text & binary) cho `Deck` |
-| `include/AIService.h` | Khai báo hàm gọi API AI sinh câu ví dụ (chỉ cần nếu CLO6 yêu cầu gọi API thật) |
 | `src/main.cpp` | Điểm vào chương trình — hiển thị menu, gọi hàm từ các class, không chứa logic nghiệp vụ |
 | `src/Word.cpp` | Cài đặt các hàm của class `Word` |
 | `src/VocabularyWord.cpp` | Cài đặt class `VocabularyWord` |
 | `src/PhraseWord.cpp` | Cài đặt class `PhraseWord` |
 | `src/Deck.cpp` | Cài đặt logic quản lý danh sách từ (add/search/sort/spaced repetition) |
 | `src/FileManager.cpp` | Cài đặt đọc/ghi `words.csv`/`words.bin`, xử lý import/export (Lab5) |
-| `src/AIService.cpp` | Cài đặt gửi HTTP request tới API AI và parse kết quả JSON |
 | `data/words.csv` | Dữ liệu từ vựng lưu dạng text, dễ đọc/sửa tay |
 | `data/words.bin` | Dữ liệu lưu dạng binary, dùng demo random access file (CLO5) |
 | `tests/test_cases.cpp` | Test case kiểm chứng add/search/sort/spaced repetition hoạt động đúng (Lab5) |
-| `lib/json.hpp` | Thư viện nlohmann/json (header-only) để parse JSON trả về từ AI API |
-| `lib/httplib.h` | Thư viện cpp-httplib (header-only) để gửi HTTP request tới AI API |
 
  mỗi class 1 cặp `.h`/`.cpp`, `main.cpp` chỉ chứa menu + gọi hàm từ các class — không nhét logic nghiệp vụ vào `main.cpp` để dễ chia việc trong nhóm (mỗi người phụ trách 1-2 class) và để Practical Exam luyện tách file quen tay.
