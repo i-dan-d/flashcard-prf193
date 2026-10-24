@@ -93,7 +93,7 @@
 | Public | `int importFrom(const std::string& path, Deck& deck, int& skippedLines) const` | Ném `std::runtime_error` nếu không mở được file; dòng sai định dạng thì bỏ qua và đếm. |
 | Public | `void exportTo(const std::string& path, const Deck& deck) const` | Ném `std::runtime_error` nếu không ghi được. |
 
-### Menu (giao diện duy nhất; `main()` chỉ gọi `Menu().run()`) — người giữ: leader
+### Menu (giao diện duy nhất; `main()` chỉ gọi `Menu().run()`) — người giữ: Duy
 
 | Phạm vi | Thành phần | Ghi chú |
 |---|---|---|
@@ -106,7 +106,7 @@
 | Private | `int readChoice() const` | |
 | Public | `Menu()`; `void run()` | |
 
-### FileManager (đề xuất bổ sung, chưa giao ai) — Save/Load `words.bin`
+### FileManager - Duy — Save/Load `words.bin`
 
 | Phạm vi | Thành phần | Ghi chú |
 |---|---|---|
@@ -116,7 +116,7 @@
 
 ## 6. File persistence
 
-### FileManager (6) — người giữ: chưa giao
+### FileManager (6) — 
 
 | Phạm vi | Thành phần | Ghi chú |
 |---|---|---|
@@ -130,7 +130,7 @@
 | Public | `void load(Deck& deck, const std::string& path) const` | Ném `std::runtime_error` nếu file không mở được, sai `MAGIC` hoặc bị hỏng; dựng `Word` xong gọi `Deck::adopt`. |
 | Public | `bool exists(const std::string& path) const` | |
 
-### Menu (phần thay đổi so với bản trước)
+### Menu 
 
 | Phạm vi | Thành phần | Ghi chú |
 |---|---|---|
@@ -139,7 +139,7 @@
 | Private | `void saveOnExit()` | Lưu khi chọn Thoát (có thể thêm mục “Lưu ngay” trong menu). |
 | Public | `void run()` | `loadOnStart()` → vòng lặp menu → `saveOnExit()`. |
 
-### Deck (phần thay đổi)
+### Deck (phần thay đổi cần bổ sung "Nếu còn thời gian làm")
 
 | Phạm vi | Thành phần | Ghi chú |
 |---|---|---|
