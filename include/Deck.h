@@ -4,33 +4,35 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <iostream>
+using namespace std;
 
 class Word;
 
 class Deck {
+private:
+    vector<unique_ptr<Word>> words;
+    int nextId = 1;
 public:
-    bool addWord(const std::string& term,
-                 const std::string& partOfSpeech,
-                 const std::string& meaning);
+    bool addWord(const string& term,
+                 const string& partOfSpeech,
+                 const string& meaning);
     bool editWord(int id,
-                  const std::string& newTerm,
-                  const std::string& newPartOfSpeech,
-                  const std::string& newMeaning);
+                  const string& newTerm,
+                  const string& newPartOfSpeech,
+                  const string& newMeaning);
     bool removeById(int id);
 
     Word* findById(int id);
     const Word* findById(int id) const;
-    Word* findByTerm(const std::string& term);
-    const Word* findByTerm(const std::string& term) const;
+    Word* findByTerm(const string& term);
+    const Word* findByTerm(const string& term) const;
 
-    void adopt(std::unique_ptr<Word> word);
+    void adopt(unique_ptr<Word> word);
 
-    const std::vector<std::unique_ptr<Word>>& all() const;
-    std::size_t size() const;
+    const vector<unique_ptr<Word>>& all() const;
+    size_t size() const;
     bool empty() const;
     void clear();
 
-private:
-    std::vector<std::unique_ptr<Word>> words;
-    int nextId = 1;
 };

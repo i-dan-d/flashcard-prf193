@@ -1,19 +1,22 @@
 #pragma once
 
 #include <string>
+#include <iostream>
+using namespace std;
 
 class Deck;
 
 class CsvManager {
-public:
-    int importFrom(const std::string& path, Deck& deck,
-                   int& skippedLines) const;
-    void exportTo(const std::string& path, const Deck& deck) const;
-
 private:
-    static std::string escapeField(const std::string& field);
-    static bool parseLine(const std::string& line,
-                          std::string& term,
-                          std::string& partOfSpeech,
-                          std::string& meaning);
+    static string escapeField(const string& field);
+    static bool parseLine(const string& line,
+                          string& term,
+                          string& partOfSpeech,
+                          string& meaning);
+public:
+    int importFrom(const string& path, Deck& deck,
+                   int& skippedLines) const;
+    void exportTo(const string& path, const Deck& deck) const;
+
+
 };

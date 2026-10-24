@@ -4,22 +4,25 @@
 #include <fstream>
 #include <memory>
 #include <string>
+#include <iostream>
+using namespace std;
 
 class Deck;
 class Word;
 
 class FileManager {
-public:
-    void save(const Deck& deck, const std::string& path) const;
-    void load(Deck& deck, const std::string& path) const;
-    bool exists(const std::string& path) const;
-
 private:
-    inline static constexpr std::uint32_t MAGIC = 0x464C5348;
-    inline static constexpr std::uint16_t VERSION = 1;
+    inline static constexpr uint32_t MAGIC = 0x464C5348;
+    inline static constexpr uint16_t VERSION = 1;
 
-    void writeString(std::ofstream& stream, const std::string& value) const;
-    std::string readString(std::ifstream& stream) const;
-    void writeWord(std::ofstream& stream, const Word& word) const;
-    std::unique_ptr<Word> readWord(std::ifstream& stream) const;
+    void writeString(ofstream& stream, const string& value) const;
+    string readString(ifstream& stream) const;
+    void writeWord(ofstream& stream, const Word& word) const;
+    unique_ptr<Word> readWord(ifstream& stream) const;
+public:
+    void save(const Deck& deck, const string& path) const;
+    void load(Deck& deck, const string& path) const;
+    bool exists(const string& path) const;
+
+
 };

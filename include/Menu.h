@@ -8,12 +8,10 @@
 #include "ReviewScheduler.h"
 #include "SearchService.h"
 #include "WordLister.h"
+#include <iostream>
+using namespace std;
 
 class Menu {
-public:
-    Menu();
-    void run();
-
 private:
     Deck deck;
     SearchService searcher;
@@ -21,7 +19,7 @@ private:
     ReviewScheduler scheduler;
     CsvManager csv;
     FileManager fileManager;
-    const std::string dataPath = "data/words.bin";
+    const string dataPath = "data/words.bin";
 
     void handleAddEditDelete();
     void handleSearch();
@@ -32,4 +30,7 @@ private:
     int readChoice() const;
     void loadOnStart();
     void saveOnExit();
+public:
+    Menu();
+    void run();
 };

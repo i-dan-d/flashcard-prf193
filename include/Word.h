@@ -3,38 +3,41 @@
 #include <ctime>
 #include <memory>
 #include <string>
+#include <iostream>
+
+using namespace std;
 
 class Word {
+private:
+    int idWord;
+    string term;
+    string partOfSpeech;
+    string meaning;
+    int reviewCount;
+    time_t nextReviewDate;
 public:
-    Word(int id, const std::string& term, const std::string& partOfSpeech,
-         const std::string& meaning);
+    Word(int id, const string& term, const string& partOfSpeech,
+         const string& meaning);
     virtual ~Word() = default;
 
     int getId() const;
-    const std::string& getTerm() const;
-    const std::string& getPartOfSpeech() const;
-    const std::string& getMeaning() const;
+    const string& getTerm() const;
+    const string& getPartOfSpeech() const;
+    const string& getMeaning() const;
     int getReviewCount() const;
-    std::time_t getNextReviewDate() const;
+    time_t getNextReviewDate() const;
 
-    void setTerm(const std::string& term);
-    void setPartOfSpeech(const std::string& partOfSpeech);
-    void setMeaning(const std::string& meaning);
-    void setReviewState(int count, std::time_t nextReviewDate);
+    void setTerm(const string& term);
+    void setPartOfSpeech(const string& partOfSpeech);
+    void setMeaning(const string& meaning);
+    void setReviewState(int count, time_t nextReviewDate);
 
-    virtual std::string getTypeName() const = 0;
+    virtual string getTypeName() const = 0;
 
-    static std::unique_ptr<Word> create(
+    static unique_ptr<Word> create(
         int id,
-        const std::string& term,
-        const std::string& partOfSpeech,
-        const std::string& meaning);
+        const string& term,
+        const string& partOfSpeech,
+        const string& meaning);
 
-private:
-    int idWord;
-    std::string term;
-    std::string partOfSpeech;
-    std::string meaning;
-    int reviewCount;
-    std::time_t nextReviewDate;
 };

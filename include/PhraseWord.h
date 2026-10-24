@@ -4,9 +4,9 @@
 
 class PhraseWord : public Word {
 public:
-    PhraseWord(int id, const std::string& term,
-               const std::string& partOfSpeech,
-               const std::string& meaning);
+    PhraseWord(int id, const string& term,
+               const string& partOfSpeech,
+               const string& meaning);
 
-    std::string getTypeName() const override;
+    string getTypeName() const override;
 };
