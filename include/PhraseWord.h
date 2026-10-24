@@ -1,9 +1,12 @@
+#pragma once
+
 #include "Word.h"
 
-class PhraseWord:Word{
-private:
+class PhraseWord : public Word {
 public:
-    PhraseWord(string id, string term, string meaning,
-    string partOfSpeech, string type);
-    string getType(); //override -> tra ve Phrase
+    PhraseWord(int id, const std::string& term,
+               const std::string& partOfSpeech,
+               const std::string& meaning);
+
+    std::string getTypeName() const override;
 };

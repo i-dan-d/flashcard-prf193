@@ -1,9 +1,12 @@
+#pragma once
+
 #include "Word.h"
 
-class VocabularyWord: Word{
-private:
+class VocabularyWord : public Word {
 public:
-    VocabularyWord(string id, string term, string meaning,
-    string partOfSpeech, string type);
-    string getType(); //override -> Tra ve Vocabulary
+    VocabularyWord(int id, const std::string& term,
+                   const std::string& partOfSpeech,
+                   const std::string& meaning);
+
+    std::string getTypeName() const override;
 };

@@ -1,29 +1,40 @@
-// Word.h — khai báo
-#include <iostream>
-using namespace std;
+#pragma once
+
+#include <ctime>
+#include <memory>
+#include <string>
+
 class Word {
-// chỉ khai báo, không có nội dung
-private:
-    string idWord, term, meaning, partOfSpeech, type;
-    int reviewCount;
-    time_t nextReviewDate;
 public:
-    Word(string id, string term, string mean, char partSpeech[3],
-    string type, int reviewC, time_t dataNext);
-    virtual ~Word();
-    string getId() const;
-    string getTerm() const;
-    string getMeaning() const;
-    string getPartOfSpeech() const;
-    string getType() const;
+    Word(int id, const std::string& term, const std::string& partOfSpeech,
+         const std::string& meaning);
+    virtual ~Word() = default;
+
+    int getId() const;
+    const std::string& getTerm() const;
+    const std::string& getPartOfSpeech() const;
+    const std::string& getMeaning() const;
     int getReviewCount() const;
-    time_t getNextReviewDate() const;
+    std::time_t getNextReviewDate() const;
 
-    string setTerm() ;
-    string setMeaning() ;
-    string setPartOfSpeech() ;
-    int setReviewState(int count, time_t next);
+    void setTerm(const std::string& term);
+    void setPartOfSpeech(const std::string& partOfSpeech);
+    void setMeaning(const std::string& meaning);
+    void setReviewState(int count, std::time_t nextReviewDate);
 
-    static unique_ptr<Word> creat(string id, string term, string meaning, 
-    string partOfSpeech, string type);
+    virtual std::string getTypeName() const = 0;
+
+    static std::unique_ptr<Word> create(
+        int id,
+        const std::string& term,
+        const std::string& partOfSpeech,
+        const std::string& meaning);
+
+private:
+    int idWord;
+    std::string term;
+    std::string partOfSpeech;
+    std::string meaning;
+    int reviewCount;
+    std::time_t nextReviewDate;
 };
