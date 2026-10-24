@@ -17,14 +17,14 @@ public:
     bool addWord(const string& term,
                  const string& partOfSpeech,
                  const string& meaning);
-    bool editWord(int id,
+    bool editWord(const int& id,
                   const string& newTerm,
                   const string& newPartOfSpeech,
                   const string& newMeaning);
-    bool removeById(int id);
+    bool removeById(const int& id);
 
-    Word* findById(int id);
-    const Word* findById(int id) const;
+    Word* findById(const int& id); //gọi const khi không thay đổi word
+    const Word* findById(const int& id) const;
     Word* findByTerm(const string& term);
     const Word* findByTerm(const string& term) const;
 
