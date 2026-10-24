@@ -1,132 +1,71 @@
-# PRF193 Final Project — Flashcard / Vocabulary Manager
+# Flashcard Vocabulary Manager
 
-## 1. Tổng quan môn học
-- Môn: **PRF193 – Programming Fundamentals (C/C++)**
-- Project là **dự án nhóm duy nhất**, xây dần qua 5 Lab (không phải 5 project riêng lẻ)
-- Đánh giá: Labs 20% + Final Project Evaluation 20% + Practical Exam 30% + Progress Test 10% + Theoretical Exam 20%
-- Final Project Evaluation: mỗi nhóm thuyết trình 30 phút + Q&A trước hội đồng (≥2 GV chấm), chấm theo rubric dựa trên final report + demo + Q&A
+Ứng dụng console viết bằng C++ giúp người học xây dựng bộ flashcard từ vựng và ôn tập theo lịch. Mỗi thẻ lưu từ hoặc cụm từ, từ loại, nghĩa và trạng thái ôn tập.
 
-## 2. CLO cần đáp ứng
-| CLO | Nội dung |
-|---|---|
-| CLO1 | Cú pháp cơ bản C/C++: kiểu dữ liệu, biến, toán tử, string, array, pointer |
-| CLO2 | Cấu trúc điều khiển: if-else, switch, for/while/do-while, break/continue/goto |
-| CLO3 | Hàm: định nghĩa/khai báo, modular, đệ quy, function pointer, truyền tham số |
-| CLO4 | OOP: encapsulation, inheritance, polymorphism; con trỏ động/smart pointer; tránh memory leak; constructor/destructor, template, exception |
-| CLO5 | File handling: đọc/ghi text & binary, random access |
-| CLO6 | Dùng AI Tools & Computational Thinking để phân tích/mô hình hoá/giải quyết vấn đề — **cần hỏi lại giảng viên: có bắt buộc gọi API AI thật trong code hay chỉ cần thể hiện qua quá trình làm bài (dùng ChatGPT/Copilot hỗ trợ)** |
+> **Trạng thái:** README mô tả sản phẩm mục tiêu. Mã nguồn hiện tại vẫn đang trong quá trình phát triển; không phải tất cả chức năng bên dưới đã được triển khai hoặc kiểm thử.
 
-## 3. Ý tưởng đề tài: Flashcard / Vocabulary Manager
-Ứng dụng console quản lý từ vựng — chọn vì có đủ chỗ tự nhiên cho OOP (kế thừa loại từ), file I/O (lưu bộ từ), và tích hợp AI (sinh câu ví dụ) để thoả CLO6.
+## Sản phẩm hướng tới
 
-### Class dự kiến
-- `Word` (lớp cha): term, meaning, reviewCount, nextReviewDate
-- `VocabularyWord`, `PhraseWord` (kế thừa từ `Word`) — override hàm `getExampleSentence()` → polymorphism
-- `Deck`: quản lý danh sách `Word` (dùng `std::vector<Word*>` hoặc `std::map<string, Word>`)
+Người dùng có thể tạo và quản lý một bộ từ vựng cá nhân ngay trong terminal. Ứng dụng hướng đến việc giúp việc học từ mới có tổ chức hơn: dễ thêm nội dung, tra cứu nhanh, theo dõi những từ cần ôn và giữ lại dữ liệu giữa các lần sử dụng.
 
-### Chức năng chính
-- Add / Edit / Delete từ vựng(1) - Duy
-- Search theo từ khoá hoặc nghĩa(2) - Quân
-- List / Sort (alphabet, mức độ nhớ)(3) - Dũng
-- Đánh dấu "đã học" + lên lịch ôn lại (spaced repetition đơn giản)(4) - Duy
-- Import/Export danh sách từ (CSV)(5) - Duy
-- Save / Load words.bin (tự động khi mở và thoát chương trình)(6) - chưa giao (đề xuất Dũng)
-## 4. Lộ trình theo Lab
-| Lab | Tuần | Nội dung chuẩn bị |
-|---|---|---|
-| Lab 1 | 2 | Phân tích chức năng — mô tả input/output từng chức năng ở mục 3 |
-| Lab 2 | 4 | Flowchart cho Add Word, Search Word, luồng Spaced Repetition |
-| Lab 3 | 6 (trước PT1) | Code **thủ tục, chưa OOP**: `struct Word`, mảng/con trỏ, hàm addWord/searchWord/sortWords/printAll |
-| Lab 4 | 8 | Refactor sang OOP: class + kế thừa + polymorphism, STL (`vector`/`map`), exception handling, smart pointer |
-| Lab 5 | 9 | Đọc/ghi file (text/binary), Import/Export CSV, viết test case cho từng chức năng |
+## Chức năng dự kiến
 
-## 5. Công cụ & thư viện
-**Bắt buộc**
-- IDE: Visual Studio Community / VS Code + MinGW / Code::Blocks / CLion
-- Compiler hỗ trợ C++11 trở lên
+- **Quản lý flashcard:** thêm, chỉnh sửa và xóa từ hoặc cụm từ. Mỗi thẻ gồm nội dung, từ loại và nghĩa.
+- **Tìm kiếm:** tìm thẻ theo từ/cụm từ hoặc nghĩa.
+- **Xem và sắp xếp:** xem toàn bộ bộ thẻ, sắp xếp theo bảng chữ cái hoặc trạng thái ôn tập.
+- **Ôn tập:** đưa ra các thẻ đến hạn, nhận câu trả lời của người học và cập nhật lịch ôn tiếp theo. Lịch dự kiến tăng dần khoảng cách giữa các lần ôn khi trả lời đúng; trả lời sai sẽ đưa thẻ trở lại sớm hơn.
+- **Trao đổi dữ liệu:** nhập và xuất danh sách từ bằng CSV.
+- **Lưu trữ:** tự động nạp và lưu bộ thẻ trong file nhị phân để dữ liệu còn sau khi thoát ứng dụng.
 
-**Thư viện chuẩn (STL)**
-- `<string>`, `<vector>` / `<map>`, `<algorithm>` (sort/find)
-- `<fstream>`, `<sstream>` — đọc/ghi file
-- `<memory>` — `unique_ptr`/`shared_ptr`
-- `<stdexcept>` / `<exception>`
+## Cách sử dụng dự kiến
 
-**Quản lý code nhóm**
-- Git + GitHub
+1. Mở ứng dụng và chọn một thao tác từ menu console.
+2. Tạo hoặc nhập các thẻ từ vựng.
+3. Tìm kiếm, xem danh sách hoặc bắt đầu phiên ôn tập.
+4. Xuất bộ thẻ ra CSV khi cần sao lưu hoặc trao đổi.
+5. Dữ liệu được lưu để sử dụng trong lần chạy tiếp theo.
 
-**Nếu tích hợp AI thật (tuỳ theo câu trả lời của giảng viên về CLO6)**
-- `libcurl` hoặc `cpp-httplib` — gửi HTTP request
-- `nlohmann/json` — parse JSON response
-- API key OpenAI/Gemini/Anthropic (free tier đủ demo)
+## Thiết kế tổng quan
 
-## 6. Kiến trúc thư mục dự án
+Ứng dụng được tổ chức quanh các thành phần chính:
 
-### Giai đoạn Lab 3 (chưa OOP — kiểu thủ tục)
-```
-FlashcardProject/
-├── main.cpp          # toàn bộ logic: struct Word, mảng, các hàm add/search/sort/print
-└── README.md
-```
-Giai đoạn này cố tình để phẳng (không tách file) vì chưa học class — tách quá sớm sẽ khó merge lại đúng chuẩn OOP ở Lab4.
+- `Word` biểu diễn dữ liệu chung của một thẻ; `VocabularyWord` và `PhraseWord` dự kiến phân biệt từ đơn với cụm từ.
+- `Deck` quản lý danh sách thẻ.
+- `SearchService`, `WordLister` và `ReviewScheduler` lần lượt phụ trách tìm kiếm, trình bày/sắp xếp và lịch ôn.
+- `CsvManager` và `FileManager` phụ trách trao đổi CSV và lưu trữ nhị phân.
+- `Menu` là giao diện console, nhận lựa chọn và hiển thị kết quả cho người dùng.
 
-### Giai đoạn cuối (sau Lab 4-5 — OOP + STL + File)
-```
-FlashcardProject/
+Mục tiêu là tách giao diện, dữ liệu và nghiệp vụ để các chức năng có thể phát triển và kiểm thử độc lập.
+
+## Cấu trúc dự án
+
+```text
+Flashcard_project/
+├── CMakeLists.txt        # Cấu hình build CMake
 ├── README.md
-├── CMakeLists.txt              # hoặc Makefile / file .sln nếu dùng Visual Studio
-├── .gitignore
-├── docs/
-│   ├── lab1_function_analysis.md
-│   ├── lab2_flowcharts/         # ảnh/pdf flowchart từ Lab2
-│   └── final_report.md         # báo cáo nộp cho buổi bảo vệ
-├── include/                     # header (.h) — khai báo class
-│   ├── Word.h
-│   ├── VocabularyWord.h         # kế thừa từ Word
-│   ├── PhraseWord.h             # kế thừa từ Word
-│   ├── Deck.h                   # quản lý vector<Word*>/map<string,Word>
-│   ├── FileManager.h            # đọc/ghi file (Lab5)
-│   └── AIService.h              # gọi API sinh câu ví dụ (nếu CLO6 yêu cầu gọi API thật)
-├── src/                          # implementation (.cpp)
-│   ├── main.cpp                 # entry point, menu điều khiển
-│   ├── Word.cpp
-│   ├── VocabularyWord.cpp
-│   ├── PhraseWord.cpp
-│   ├── Deck.cpp
-│   ├── FileManager.cpp
-│ 
-├── data/
-│   ├── words.csv                # dữ liệu dạng text
-│   └── words.bin                # dữ liệu dạng binary (demo random access, CLO5)
-├── tests/
-│   └── test_cases.cpp           # test case cho add/search/sort/spaced repetition (Lab5)
-└── lib/                          # thư viện ngoài header-only nếu có
-    ├── json.hpp                  # nlohmann/json (nếu gọi AI API)
-    └── httplib.h                 # cpp-httplib (nếu gọi AI API)
+├── data/                 # Dữ liệu mẫu và dữ liệu ứng dụng
+├── docs/                 # Tài liệu thiết kế, phân tích và kiểm thử
+├── include/              # Header của các lớp và thành phần
+├── src/                  # Mã nguồn C++
+└── tests/                # Mã nguồn kiểm thử
 ```
 
-### Giải thích từng folder/file
+## Công nghệ
 
-| Đường dẫn | Vai trò |
-|---|---|
-| `README.md` | Mô tả tổng quan project, hướng dẫn build/chạy |
-| `CMakeLists.txt` / `Makefile` / `.sln` | File cấu hình build — biên dịch toàn bộ `src/` thành 1 executable |
-| `.gitignore` | Loại trừ file build (`.exe`, `.o`, thư mục `build/`) khỏi Git |
-| `docs/lab1_function_analysis.md` | Bản phân tích chức năng nộp cho Lab1 |
-| `docs/lab2_flowcharts/` | Ảnh/PDF flowchart vẽ ở Lab2 (Add Word, Search, Spaced Repetition) |
-| `docs/final_report.md` | Báo cáo cuối kỳ dùng khi bảo vệ Final Project |
-| `include/Word.h` | Khai báo class `Word` (lớp cha): thuộc tính term/meaning/reviewCount, các hàm ảo (virtual) cho polymorphism |
-| `include/VocabularyWord.h` | Khai báo class kế thừa `Word`, override cách sinh câu ví dụ cho từ vựng đơn |
-| `include/PhraseWord.h` | Khai báo class kế thừa `Word`, override cách sinh câu ví dụ cho cụm từ |
-| `include/Deck.h` | Khai báo class `Deck`: quản lý tập hợp `Word` (add/remove/search/sort), dùng STL container |
-| `include/FileManager.h` | Khai báo các hàm đọc/ghi file (text & binary) cho `Deck` |
-| `src/main.cpp` | Điểm vào chương trình — hiển thị menu, gọi hàm từ các class, không chứa logic nghiệp vụ |
-| `src/Word.cpp` | Cài đặt các hàm của class `Word` |
-| `src/VocabularyWord.cpp` | Cài đặt class `VocabularyWord` |
-| `src/PhraseWord.cpp` | Cài đặt class `PhraseWord` |
-| `src/Deck.cpp` | Cài đặt logic quản lý danh sách từ (add/search/sort/spaced repetition) |
-| `src/FileManager.cpp` | Cài đặt đọc/ghi `words.csv`/`words.bin`, xử lý import/export (Lab5) |
-| `data/words.csv` | Dữ liệu từ vựng lưu dạng text, dễ đọc/sửa tay |
-| `data/words.bin` | Dữ liệu lưu dạng binary, dùng demo random access file (CLO5) |
-| `tests/test_cases.cpp` | Test case kiểm chứng add/search/sort/spaced repetition hoạt động đúng (Lab5) |
+- C++
+- C++17 là chuẩn dự kiến
+- STL, CMake và các thư viện chuẩn của C++
 
- mỗi class 1 cặp `.h`/`.cpp`, `main.cpp` chỉ chứa menu + gọi hàm từ các class — không nhét logic nghiệp vụ vào `main.cpp` để dễ chia việc trong nhóm (mỗi người phụ trách 1-2 class) và để Practical Exam luyện tách file quen tay.
+## Build và chạy
+
+Quy trình build/run chưa sẵn sàng để hướng dẫn đáng tin cậy: `CMakeLists.txt` hiện chưa có cấu hình target, và mã nguồn trong `src/` chưa tạo thành phiên bản ứng dụng hoàn chỉnh. Các lệnh build và chạy sẽ được bổ sung sau khi cấu hình build và entry point của ứng dụng được hoàn thiện, rồi kiểm chứng.
+
+## Tài liệu dự án
+
+- [`docs/design_decisions.md`](docs/design_decisions.md) — thiết kế và quyết định kiến trúc.
+- [`docs/lab1_function_analysis.md`](docs/lab1_function_analysis.md) — phân tích luồng chức năng dự kiến.
+- [`docs/lab2_flowcharts/`](docs/lab2_flowcharts/) — sơ đồ luồng.
+- [`docs/test_report.md`](docs/test_report.md) — tài liệu kiểm thử.
+- [`docs/final_report.md`](docs/final_report.md) — báo cáo dự án.
+
+Các tài liệu về môn học, quá trình làm nhóm và sử dụng AI được giữ trong `docs/` để README tập trung vào mục đích và cách hiểu sản phẩm.
