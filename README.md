@@ -49,20 +49,25 @@ Flashcard_project/
 ├── src/                  # Mã nguồn C++
 └── tests/                # Mã nguồn kiểm thử
 ```
-## Run
-```code
-g++ -std=c++17 -Wall -Wextra -pedantic -Iinclude src\*.cpp -o ./src/build/Flashcard.exe
-.\src\build\Flashcard.exe
-```
 ## Công nghệ
 
 - C++
-- C++17 là chuẩn dự kiến
+- C++17
 - STL, CMake và các thư viện chuẩn của C++
 
 ## Build và chạy
 
-Quy trình build/run chưa sẵn sàng để hướng dẫn đáng tin cậy: `CMakeLists.txt` hiện chưa có cấu hình target, và mã nguồn trong `src/` chưa tạo thành phiên bản ứng dụng hoàn chỉnh. Các lệnh build và chạy sẽ được bổ sung sau khi cấu hình build và entry point của ứng dụng được hoàn thiện, rồi kiểm chứng.
+Mở PowerShell tại thư mục gốc của dự án (`Flashcard_project`) và chạy:
+
+```powershell
+$sources = Get-ChildItem .\src\*.cpp | ForEach-Object { $_.FullName }
+g++ -std=c++17 -Wall -Wextra -pedantic -Iinclude $sources -o .\Flashcard.exe
+.\Flashcard.exe
+```
+
+Lệnh đầu tiên biên dịch tất cả file `.cpp` trong `src` thành `Flashcard.exe`; lệnh tiếp theo chạy ứng dụng. Cần cài GCC/G++ và đảm bảo `g++` có trong `PATH`.
+
+Hiện menu cho phép quản lý từ, xem danh sách, ôn tập và lưu/nạp dữ liệu. Tìm kiếm và CSV import/export chưa được triển khai.
 
 ## Tài liệu dự án
 
