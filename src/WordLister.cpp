@@ -1,8 +1,8 @@
 
-#include<bits/stdc++.h>
-#include "WordLister.h"
-#include "Word.h"
-#include "Deck.h"
+#include <algorithm>
+#include "../include/WordLister.h"
+#include "../include/Word.h"
+#include "../include/Deck.h"
 
 using namespace std;
 

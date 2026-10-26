@@ -6,9 +6,9 @@
 3. Gọi listr.sortedBy() để lấy danh sách sắp xếp.
 4. Duyệt danh sách và in từng bảng từ bằng WordLister::format(*word)*/
 
-#include<bits/stdc++.h>
-#include"Menu.h"
-#include"Word.h"
+#include <algorithm>
+#include "../include/Menu.h"
+#include "../include/Word.h"
 using namespace std;
 
 void Menu::handleList() {
