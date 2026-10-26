@@ -6,7 +6,6 @@
 #include "Deck.h"
 #include "FileManager.h"
 #include "ReviewScheduler.h"
-#include "SearchService.h"
 #include "WordLister.h"
 #include <iostream>
 using namespace std;
@@ -14,7 +13,6 @@ using namespace std;
 class Menu {
 private:
     Deck deck;
-    SearchService searcher;
     WordLister lister;
     ReviewScheduler scheduler;
     CsvManager csv;

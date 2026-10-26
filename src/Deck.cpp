@@ -7,6 +7,14 @@
 #include "../include/StringUtil.h"
 #include "../include/Word.h"
 
+Deck::Deck() = default;
+
+Deck::~Deck() = default;
+
+Deck::Deck(Deck&&) noexcept = default;
+
+Deck& Deck::operator=(Deck&&) noexcept = default;
+
 bool Deck::addWord(const string& term,
                    const string& partOfSpeech,
                    const string& meaning) {

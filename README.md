@@ -49,7 +49,10 @@ Flashcard_project/
 ├── src/                  # Mã nguồn C++
 └── tests/                # Mã nguồn kiểm thử
 ```
-
+```code
+g++ -std=c++17 -Wall -Wextra -pedantic -Iinclude src\*.cpp -o ./src/build/Flashcard.exe
+.\src\build\Flashcard.exe
+```
 ## Công nghệ
 
 - C++

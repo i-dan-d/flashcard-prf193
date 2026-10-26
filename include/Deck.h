@@ -14,6 +14,14 @@ private:
     vector<unique_ptr<Word>> words;
     int nextId = 1;
 public:
+    Deck();
+    ~Deck();
+    Deck(Deck&&) noexcept;
+    Deck& operator=(Deck&&) noexcept;
+
+    Deck(const Deck&) = delete;
+    Deck& operator=(const Deck&) = delete;
+
     bool addWord(const string& term,
                  const string& partOfSpeech,
                  const string& meaning);

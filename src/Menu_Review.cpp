@@ -1,54 +1,56 @@
-#include "../include/ReviewScheduler.h"
+#include "../include/Menu.h"
 
-#include "../include/Deck.h"
-#include "../include/StringUtil.h"
 #include "../include/Word.h"
 
-#include <algorithm>
-#include <limits>
+#include <ctime>
+#include <iostream>
+#include <string>
 
-ReviewScheduler::ReviewScheduler(Deck& deck) : deck(deck) {}
-
-time_t ReviewScheduler::addDays(time_t time, int days) const {
-    constexpr time_t secondsPerDay = 24 * 60 * 60;
-    return time + static_cast<time_t>(days) * secondsPerDay;
-}
-
-vector<Word*> ReviewScheduler::dueWords(time_t now) const {
-    vector<Word*> due;
-    for (const auto& word : deck.all()) {
-        if (word->getNextReviewDate() <= now) {
-            due.push_back(word.get());
-        }
-    }
-
-    sort(due.begin(), due.end(), [](const Word* left, const Word* right) {
-        return left->getNextReviewDate() < right->getNextReviewDate();
-    });
-    return due;
-}
-
-Word* ReviewScheduler::nextDue(time_t now) const {
-    const vector<Word*> due = dueWords(now);
-    return due.empty() ? nullptr : due.front();
-}
-
-bool ReviewScheduler::checkAnswer(const Word& word,
-                                  const string& answer) const {
-    return StringUtil::equalsIgnoreCase(word.getMeaning(), answer);
-}
-
-void ReviewScheduler::markResult(Word& word, bool correct, time_t now) {
-    if (!correct) {
-        word.setReviewState(0, addDays(now, INTERVAL_DAYS[0]));
+void Menu::handleReview() {
+    if (deck.empty()) {
+        cout << "Your vocabulary deck is empty.\n";
         return;
     }
-    constexpr int intervalCount =
-        sizeof(INTERVAL_DAYS) / sizeof(INTERVAL_DAYS[0]);
 
-    const int currentCount = max(0, word.getReviewCount());
-    const int nextCount = min(currentCount + 1, intervalCount);
+    cout << "\n===== REVIEW =====\n"
+         << "Type the meaning of each word or phrase.\n"
+         << "Press Ctrl+Z then Enter to stop on Windows.\n\n";
 
-    word.setReviewState(nextCount,
-                        addDays(now, INTERVAL_DAYS[nextCount - 1]));
+    int reviewedCount = 0;
+    int correctCount = 0;
+
+    while (true) {
+        const time_t reviewTime = time(nullptr);
+        Word* word = scheduler.nextDue(reviewTime);
+        if (word == nullptr) {
+            break;
+        }
+
+        cout << word->getTerm() << " (" << word->getPartOfSpeech() << "): ";
+        string answer;
+        if (!getline(cin, answer)) {
+            cout << "\nReview stopped because input ended.\n";
+            return;
+        }
+
+        const bool correct = scheduler.checkAnswer(*word, answer);
+        ++reviewedCount;
+        if (correct) {
+            ++correctCount;
+            cout << "Correct!\n";
+        } else {
+            cout << "Not quite. Meaning: " << word->getMeaning() << '\n';
+        }
+
+        scheduler.markResult(*word, correct, reviewTime);
+        cout << '\n';
+    }
+
+    if (reviewedCount == 0) {
+        cout << "There are no words due for review right now.\n";
+        return;
+    }
+
+    cout << "Review complete. Correct: " << correctCount
+         << " / " << reviewedCount << ".\n";
 }
