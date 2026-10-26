@@ -76,7 +76,7 @@
 
 | Phạm vi | Thành phần | Ghi chú |
 |---|---|---|
-| Private | `Deck& deck`; `static constexpr int INTERVAL_DAYS[] = {1, 3, 7, 15}`; `std::time_t addDays(std::time_t t, int days) const` | |
+| Private | `Deck& deck`; `static constexpr int INTERVAL_DAYS[] = {1, 3, 7, 15, 30}`; `std::time_t addDays(std::time_t t, int days) const` | |
 | Public | `explicit ReviewScheduler(Deck& deck)` | Hàm khởi tạo. |
 | Public | `std::vector<Word*> dueWords(std::time_t now) const` | Lọc các từ có `nextReviewDate <= now`, sắp theo hạn sớm nhất. |
 | Public | `Word* nextDue(std::time_t now) const` | Trả `nullptr` nếu hết từ. |

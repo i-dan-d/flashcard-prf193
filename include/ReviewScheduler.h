@@ -13,7 +13,7 @@ class ReviewScheduler {
 private:
     Deck& deck;
 
-    inline static constexpr int INTERVAL_DAYS[] = {1, 3, 7, 15};
+    inline static constexpr int INTERVAL_DAYS[] = {1, 3, 7, 15, 30};
 
     time_t addDays(time_t time, int days) const;
 public:
