@@ -4,12 +4,12 @@
 #include <iostream>
 #include <sstream>
 
-Menu::Menu() : lister(deck), scheduler(deck) {}
+Menu::Menu() : lister(deck), scheduler(deck), search(deck) {}
 
 int Menu::readChoice() const {
     cout << "\n===== FLASHCARD-VOCABULARY MANAGER =====\n"
          << "1. Add, edit, or delete words\n"
-         << "2. Search (not implemented yet)\n"
+         << "2. Search \n"
          << "3. List words\n"
          << "4. Review due words\n"
          << "5. Import/export CSV (not implemented yet)\n"
@@ -58,7 +58,12 @@ void Menu::saveOnExit() {
 }
 
 void Menu::handleSearch() {
-    cout << "Search is not available yet.\n";
+    try {
+        search.menuSearch(deck);
+        cout << "Search finished.\n";
+    } catch (const exception& error) {
+        cout << "Could not search deck: " << error.what() << '\n';
+    }
 }
 
 void Menu::handleImportExport() {

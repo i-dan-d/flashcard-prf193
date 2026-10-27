@@ -5,7 +5,9 @@
 #include "Deck.h"
 #include "Word.h"
 
-void menuSearch(const Deck& deck) {
+
+
+void SearchService::menuSearch(const Deck& deck) const {
     std::string keyword;
     std::cout << "Nhap tu khoa: ";
     std::getline(std::cin, keyword);

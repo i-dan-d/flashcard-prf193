@@ -17,6 +17,7 @@ public:
     explicit SearchService(const Deck& deck);
 
     vector<const Word*> search(const string& keyword) const;
+    void menuSearch(const Deck& deck) const;
 
 
 };

@@ -7,6 +7,8 @@
 #include "FileManager.h"
 #include "ReviewScheduler.h"
 #include "WordLister.h"
+#include "SearchService.h"
+
 #include <iostream>
 using namespace std;
 
@@ -17,6 +19,7 @@ private:
     ReviewScheduler scheduler;
     CsvManager csv;
     FileManager fileManager;
+    SearchService search;
     const string dataPath = "data/words.bin";
 
     void handleAddEditDelete();
