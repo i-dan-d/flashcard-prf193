@@ -1,4 +1,4 @@
-# Flashcard Vocabulary Manager
+# Flashcard-Vocabulary Manager
 
 Ứng dụng console viết bằng C++ giúp người học xây dựng bộ flashcard từ vựng và ôn tập theo lịch. Mỗi thẻ lưu từ hoặc cụm từ, từ loại, nghĩa và trạng thái ôn tập.
 
@@ -61,11 +61,11 @@ Mở PowerShell tại thư mục gốc của dự án (`Flashcard_project`) và 
 
 ```powershell
 $sources = Get-ChildItem .\src\*.cpp | ForEach-Object { $_.FullName }
-g++ -std=c++17 -Wall -Wextra -pedantic -Iinclude $sources -o .\Flashcard.exe
-.\Flashcard.exe
+g++ -std=c++17 -Wall -Wextra -pedantic -Iinclude $sources -o .\Flashcard-Vocabulary-Manager.exe
+.\Flashcard-Vocabulary-Manager.exe
 ```
 
-Lệnh đầu tiên biên dịch tất cả file `.cpp` trong `src` thành `Flashcard.exe`; lệnh tiếp theo chạy ứng dụng. Cần cài GCC/G++ và đảm bảo `g++` có trong `PATH`.
+Lệnh đầu tiên biên dịch tất cả file `.cpp` trong `src` thành `Flashcard-Vocabulary-Manager.exe`; lệnh tiếp theo chạy ứng dụng. Cần cài GCC/G++ và đảm bảo `g++` có trong `PATH`.
 
 Hiện menu cho phép quản lý từ, xem danh sách, ôn tập và lưu/nạp dữ liệu. Tìm kiếm và CSV import/export chưa được triển khai.
 

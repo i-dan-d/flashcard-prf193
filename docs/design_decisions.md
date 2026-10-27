@@ -85,7 +85,7 @@
 
 ## 5. CSV và Menu
 
-### CsvManager — Duy (5)
+### CsvManager —  (5)
 
 | Phạm vi | Thành phần | Ghi chú |
 |---|---|---|
@@ -130,7 +130,7 @@
 | Public | `void load(Deck& deck, const std::string& path) const` | Ném `std::runtime_error` nếu file không mở được, sai `MAGIC` hoặc bị hỏng; dựng `Word` xong gọi `Deck::adopt`. |
 | Public | `bool exists(const std::string& path) const` | |
 
-### Menu 
+### Menu  (Duy)
 
 | Phạm vi | Thành phần | Ghi chú |
 |---|---|---|

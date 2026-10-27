@@ -1,4 +1,4 @@
-# Lab 1 — Function Analysis: Flashcard / Vocabulary Manager
+# Lab 1 — Function Analysis: Flashcard-Vocabulary Manager
 
 Môn: PRF193 | Nhóm: BetterMan
 

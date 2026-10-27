@@ -7,7 +7,7 @@
 Menu::Menu() : lister(deck), scheduler(deck) {}
 
 int Menu::readChoice() const {
-    cout << "\n===== FLASHCARD MENU =====\n"
+    cout << "\n===== FLASHCARD-VOCABULARY MANAGER =====\n"
          << "1. Add, edit, or delete words\n"
          << "2. Search (not implemented yet)\n"
          << "3. List words\n"
