@@ -139,7 +139,7 @@
 | Private | `void saveOnExit()` | Lưu khi chọn Thoát (có thể thêm mục “Lưu ngay” trong menu). |
 | Public | `void run()` | `loadOnStart()` → vòng lặp menu → `saveOnExit()`. |
 
-### Deck (phần thay đổi cần bổ sung "Nếu còn thời gian làm")
+### Deck (phần thay đổi cần bổ sung Duy đã làm)
 
 | Phạm vi | Thành phần | Ghi chú |
 |---|---|---|
