@@ -12,7 +12,7 @@ int Menu::readChoice() const {
          << "2. Search \n"
          << "3. List words\n"
          << "4. Review due words\n"
-         << "5. Import/export CSV (not implemented yet)\n"
+         << "5. Import/export CSV\n"
          << "0. Save and exit\n"
          << "Choose: ";
 
@@ -66,9 +66,6 @@ void Menu::handleSearch() {
     }
 }
 
-void Menu::handleImportExport() {
-    cout << "CSV import/export is not available yet.\n";
-}
 
 void Menu::run() {
     loadOnStart();
