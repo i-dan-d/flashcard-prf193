@@ -156,9 +156,11 @@ void CsvManager::exportTo(const string& path, const Deck& deck) const {
             continue;
         }
 
-        file << escapeField(wordPtr->getTerm()) << ","
-             << escapeField(wordPtr->getPartOfSpeech()) << ","
-             << escapeField(wordPtr->getMeaning()) << "\n";
+        file << escapeField(wordPtr->getTerm()) << ", "
+             << escapeField(wordPtr->getPartOfSpeech()) << ", "
+             << escapeField(wordPtr->getMeaning()) << ", "
+             << escapeField(wordPtr->getTypeName()) << "\n";
+
     }
 
     if (!file) {
