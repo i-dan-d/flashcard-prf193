@@ -35,14 +35,29 @@ void Menu::handleImportExport() {
         return;
     }
 
-    string path;
-    cout << "Enter CSV file path: ";
-    getline(cin, path);
+    
+string path;
+cout << "Enter file name or path: ";
+getline(cin, path);
 
-    if (path.empty()) {
-        cout << "File path cannot be empty.\n";
-        return;
+if (path.empty()) {
+    cout << "File name cannot be empty.\n";
+    return;
+}
+
+if (choice == 2) {
+    size_t dotPosition = path.find_last_of('.');
+    size_t slashPosition = path.find_last_of("/\\");
+
+    bool hasExtension =
+        dotPosition != string::npos &&
+        (slashPosition == string::npos || dotPosition > slashPosition);
+
+    if (!hasExtension) {
+        path += ".csv";
     }
+}
+
 
     try {
         if (choice == 1) {
