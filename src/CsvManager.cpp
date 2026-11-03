@@ -110,59 +110,59 @@ bool CsvManager::parseLine(const string& line,
 
 int CsvManager::importFrom(const string& path, Deck& deck,
                            int& skippedLines) const {
-    ifstream file(path);
+    ifstream file(path); // mở file
 
     if (!file.is_open()) {
         throw runtime_error("Cannot open CSV file: " + path);
     }
-
+    // khởi tạo bộ đếm
     skippedLines = 0;
     int importedCount = 0;
     string line;
 
-    while (getline(file, line)) {
+    while (getline(file, line)) { // đọc từng dòng
         string term;
         string partOfSpeech;
         string meaning;
-
-        if (!parseLine(line, term, partOfSpeech, meaning)) {
-            skippedLines++;
+        //phân tích dòng
+        if (!parseLine(line, term, partOfSpeech, meaning)) { 
+            skippedLines++; 
             continue;
         }
-
+        // thêm word vào deck
         if (deck.addWord(term, partOfSpeech, meaning)) {
             importedCount++;
         } else {
             skippedLines++;
         }
     }
-
+    // kiểm tra lỗi đọc file
     if (file.bad()) {
         throw runtime_error("Error reading CSV file: " + path);
     }
-
+    // trả số lượng nhập thành công
     return importedCount;
 }
 
 void CsvManager::exportTo(const string& path, const Deck& deck) const {
-    ofstream file(path);
+    ofstream file(path); // mở file ghi 
 
     if (!file.is_open()) {
         throw runtime_error("Cannot open CSV file for writing: " + path);
     }
-
+    // duyệt toàn bộ word trong deck
     for (const auto& wordPtr : deck.all()) {
         if (wordPtr == nullptr) {
             continue;
         }
-
+        // lấy dữ liệu và ghi ra file
         file << escapeField(wordPtr->getTerm()) << ", "
              << escapeField(wordPtr->getPartOfSpeech()) << ", "
              << escapeField(wordPtr->getMeaning()) << ", "
              << escapeField(wordPtr->getTypeName()) << "\n";
 
     }
-
+    // kiểu tra lỗi ghi 
     if (!file) {
         throw runtime_error("Error writing CSV file: " + path);
     }
