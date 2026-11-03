@@ -34,8 +34,6 @@ void Menu::handleImportExport() {
         cout << "Invalid choice.\n";
         return;
     }
-
-    
 string path;
 cout << "Enter file name or path: ";
 getline(cin, path);
@@ -57,8 +55,6 @@ if (choice == 2) {
         path += ".csv";
     }
 }
-
-
     try {
         if (choice == 1) {
             int skippedLines = 0;
