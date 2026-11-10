@@ -7,7 +7,7 @@
 #include <stdexcept>
 #include <vector>
 
-string CsvManager::escapeField(const string& field) {
+string CsvManager::escapeField(const string& field) { // xử lý dữ liệu trước khi ghi dữ liệu ra file
     bool needQuotes = false;
     string result;
 
@@ -30,7 +30,7 @@ string CsvManager::escapeField(const string& field) {
     return result;
 }
 
-bool CsvManager::parseLine(const string& line,
+bool CsvManager::parseLine(const string& line, // parseLine phân tích từng dòng trước khi nhập dữ liệu
                            string& term,
                            string& partOfSpeech,
                            string& meaning) {
