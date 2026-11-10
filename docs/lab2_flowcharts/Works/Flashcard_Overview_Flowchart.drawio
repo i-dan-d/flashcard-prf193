@@ -1,6 +1,6 @@
 <mxfile host="Electron">
   <diagram name="Page-1" id="Gv4DZix-rt3sfZAN0SvU">
-    <mxGraphModel dx="1373" dy="835" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1250" dy="522" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -13,16 +13,21 @@
         <mxCell id="yUV-nuLE9e7X8v3LGNCX-9" edge="1" parent="1" source="yUV-nuLE9e7X8v3LGNCX-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="yUV-nuLE9e7X8v3LGNCX-3" value="">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="yUV-nuLE9e7X8v3LGNCX-2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="&lt;b&gt;Hiển thị menu&lt;/b&gt;&lt;br&gt;4 lựa chọn chính" vertex="1">
+        <mxCell id="yUV-nuLE9e7X8v3LGNCX-2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="&lt;b&gt;Hiển thị menu&lt;/b&gt;&lt;br&gt;6 lựa chọn chính" vertex="1">
           <mxGeometry height="60" width="120" x="337.5" y="320" as="geometry" />
         </mxCell>
-        <mxCell id="yUV-nuLE9e7X8v3LGNCX-10" edge="1" parent="1" source="yUV-nuLE9e7X8v3LGNCX-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="yUV-nuLE9e7X8v3LGNCX-4" value="Add/Search/Review">
-          <mxGeometry relative="1" x="0.04" y="10" as="geometry">
+        <mxCell id="yUV-nuLE9e7X8v3LGNCX-10" edge="1" parent="1" source="yUV-nuLE9e7X8v3LGNCX-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="yUV-nuLE9e7X8v3LGNCX-4" value="">
+          <mxGeometry relative="1" x="0.0476" y="10" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="yUV-nuLE9e7X8v3LGNCX-11" edge="1" parent="1" source="yUV-nuLE9e7X8v3LGNCX-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="yUV-nuLE9e7X8v3LGNCX-6" value="Exit">
-          <mxGeometry relative="1" x="-0.25" y="-17" as="geometry">
+        <mxCell id="xuL0WMLHLaHz50olNGPo-1" connectable="0" parent="yUV-nuLE9e7X8v3LGNCX-10" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];inheritText=1;" value="1 trong 6 chức năng" vertex="1">
+          <mxGeometry relative="1" x="-0.1766" y="-1" as="geometry">
+            <mxPoint y="-11" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yUV-nuLE9e7X8v3LGNCX-11" edge="1" parent="1" source="yUV-nuLE9e7X8v3LGNCX-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="yUV-nuLE9e7X8v3LGNCX-6" value="Save &amp;amp; Exit">
+          <mxGeometry relative="1" x="-0.25" y="32" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>

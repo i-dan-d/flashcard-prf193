@@ -85,7 +85,7 @@
 
 ## 5. CSV và Menu
 
-### CsvManager —  (5)
+### CsvManager —  (5) Dũng làm
 
 | Phạm vi | Thành phần | Ghi chú |
 |---|---|---|
@@ -116,7 +116,7 @@
 
 ## 6. File persistence
 
-### FileManager (6) — 
+### FileManager (6) —  Duy
 
 | Phạm vi | Thành phần | Ghi chú |
 |---|---|---|

@@ -20,6 +20,8 @@ add_library(flashcard_vocabulary_manager_core
 	src/Menu_Search.cpp
 	src/PhraseWord.cpp
 	src/ReviewScheduler.cpp
+	src/CsvManager.cpp
+	src/SearchService.cpp
 	src/StringUtil.cpp
 	src/VocabularyWord.cpp
 	src/Word.cpp
@@ -35,4 +37,8 @@ if(BUILD_TESTING)
 	add_executable(test_word_lister tests/test_word_lister.cpp)
 	target_link_libraries(test_word_lister PRIVATE flashcard_vocabulary_manager_core)
 	add_test(NAME word_lister COMMAND test_word_lister)
+
+	add_executable(test_cases tests/test_cases.cpp)
+	target_link_libraries(test_cases PRIVATE flashcard_vocabulary_manager_core)
+	add_test(NAME test_cases COMMAND test_cases)
 endif()
