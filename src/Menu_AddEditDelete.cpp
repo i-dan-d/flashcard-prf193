@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <algorithm>
 
 namespace {
 
@@ -74,13 +75,22 @@ void Menu::handleAddEditDelete() {
     }
 
     if (choice == 2) {
+        const vector<const Word*> matches = search.menuSearch();
+        if (matches.empty()) {
+            return;
+        }
+
         int id;
-        if (!readInteger("Enter the ID to edit: ", id)) {
+        if (!readInteger("Enter the ID to edit from the search results: ",
+                         id)) {
             cout << "Please enter a valid ID.\n";
             return;
         }
-        if (deck.findById(id) == nullptr) {
-            cout << "No word found with that ID.\n";
+        const auto selected = find_if(
+            matches.begin(), matches.end(),
+            [id](const Word* word) { return word->getId() == id; });
+        if (selected == matches.end()) {
+            cout << "That ID is not in the search results.\n";
             return;
         }
 
@@ -100,9 +110,23 @@ void Menu::handleAddEditDelete() {
     }
 
     if (choice == 3) {
+        const vector<const Word*> matches = search.menuSearch();
+        if (matches.empty()) {
+            return;
+        }
+
         int id;
-        if (!readInteger("Enter the ID to delete: ", id)) {
+        if (!readInteger("Enter the ID to delete from the search results: ",
+                         id)) {
             cout << "Please enter a valid ID.\n";
+            return;
+        }
+
+        const auto selected = find_if(
+            matches.begin(), matches.end(),
+            [id](const Word* word) { return word->getId() == id; });
+        if (selected == matches.end()) {
+            cout << "That ID is not in the search results.\n";
             return;
         }
 

@@ -76,22 +76,24 @@
 
 | Phạm vi | Thành phần | Ghi chú |
 |---|---|---|
-| Private | `Deck& deck`; `static constexpr int INTERVAL_DAYS[] = {1, 3, 7, 15, 30}`; `std::time_t addDays(std::time_t t, int days) const` | |
+| Private | `Deck& deck`; năm khoảng ngày có thể cấu hình, mặc định `{1, 3, 7, 15, 30}`; `std::time_t addDays(std::time_t t, int days) const` | |
 | Public | `explicit ReviewScheduler(Deck& deck)` | Hàm khởi tạo. |
 | Public | `std::vector<Word*> dueWords(std::time_t now) const` | Lọc các từ có `nextReviewDate <= now`, sắp theo hạn sớm nhất. |
 | Public | `Word* nextDue(std::time_t now) const` | Trả `nullptr` nếu hết từ. |
-| Public | `bool checkAnswer(const Word& w, const std::string& answer) const` | So với `meaning`, không phân biệt hoa/thường. |
-| Public | `void markResult(Word& w, bool correct, std::time_t now)` | Đúng: tăng `reviewCount` lên 1 và dời lịch theo `INTERVAL_DAYS`; sai: đặt `reviewCount = 0`, ôn lại hôm sau. |
+| Public | `std::vector<const Word*> multipleChoiceChoices(const Word& w, std::mt19937& random) const` | Trả về nghĩa đúng và tối đa ba nghĩa gây nhiễu khác lấy ngẫu nhiên từ Deck. |
+| Public | `void setIntervals(const std::array<int, 5>& intervals)` | Nhận các khoảng ngày dương, tăng nghiêm ngặt. |
+| Public | `bool loadIntervals(const std::string& path)`; `void saveIntervals(const std::string& path) const` | Đọc/ghi năm khoảng ngày tại `data/review_intervals.csv`. |
+| Public | `void markResult(Word& w, bool correct, std::time_t now)` | Đúng: tăng `reviewCount` lên 1 và dời lịch theo khoảng ngày tương ứng; sai: đặt `reviewCount = 0`, ôn lại theo mốc đầu tiên. |
 
 ## 5. CSV và Menu
 
-### CsvManager —  (5)
+### CsvManager —  (5) Dũng làm
 
 | Phạm vi | Thành phần | Ghi chú |
 |---|---|---|
-| Private | `static std::string escapeField(const std::string& s)`; `static bool parseLine(const std::string& line, std::string& term, std::string& partOfSpeech, std::string& meaning)` | |
-| Public | `int importFrom(const std::string& path, Deck& deck, int& skippedLines) const` | Ném `std::runtime_error` nếu không mở được file; dòng sai định dạng thì bỏ qua và đếm. |
-| Public | `void exportTo(const std::string& path, const Deck& deck) const` | Ném `std::runtime_error` nếu không ghi được. |
+| Private | `static std::string escapeField(const std::string& s)`; `static bool parseLine(const std::string& line, std::vector<std::string>& fields)` | |
+| Public | `int importFrom(const std::string& path, Deck& deck, int& skippedLines) const` | Nhận CSV 3 cột cũ hoặc 5 cột `term,partOfSpeech,meaning,reviewCount,nextReviewDate`; bỏ qua và đếm dòng sai định dạng. ID được cấp nội bộ, không nhập từ CSV. |
+| Public | `void exportTo(const std::string& path, const Deck& deck) const` | Ghi 5 cột không có ID; ném `std::runtime_error` nếu không ghi được. |
 
 ### Menu (giao diện duy nhất; `main()` chỉ gọi `Menu().run()`) — người giữ: Duy
 
@@ -106,35 +108,29 @@
 | Private | `int readChoice() const` | |
 | Public | `Menu()`; `void run()` | |
 
-### FileManager - Duy — Save/Load `words.bin`
+### FileManager - Duy — Save/Load `words.csv`
 
 | Phạm vi | Thành phần | Ghi chú |
 |---|---|---|
-| Private | `static constexpr std::uint32_t MAGIC` | |
 | Public | `void save(const Deck& deck, const std::string& path) const` | |
-| Public | `void load(Deck& deck, const std::string& path) const` | Ném `std::runtime_error` nếu file hỏng; dùng `Deck::adopt`. |
+| Public | `void load(Deck& deck, const std::string& path) const` | Đọc CSV; ném `std::runtime_error` nếu file sai định dạng. |
 
 ## 6. File persistence
 
-### FileManager (6) — 
+### FileManager (6) —  Duy
 
 | Phạm vi | Thành phần | Ghi chú |
 |---|---|---|
-| Private | `static constexpr std::uint32_t MAGIC` | Nhận diện đúng file của app. |
-| Private | `static constexpr std::uint16_t VERSION = 1` | |
-| Private | `void writeString(std::ofstream&, const std::string&) const` | Ghi độ dài (`uint32`) và nội dung. |
-| Private | `std::string readString(std::ifstream&) const` | |
-| Private | `void writeWord(std::ofstream&, const Word&) const` | |
-| Private | `std::unique_ptr<Word> readWord(std::ifstream&) const` | Đọc tag loại rồi dựng đúng lớp con. |
-| Public | `void save(const Deck& deck, const std::string& path) const` | Ghi header, số bản ghi và từng `Word`; ghi ra file tạm rồi đổi tên để không làm hỏng file cũ nếu mất điện giữa chừng. |
-| Public | `void load(Deck& deck, const std::string& path) const` | Ném `std::runtime_error` nếu file không mở được, sai `MAGIC` hoặc bị hỏng; dựng `Word` xong gọi `Deck::adopt`. |
+| Private | CSV header `id,type,term,partOfSpeech,meaning,reviewCount,nextReviewDate` | Lưu đủ dữ liệu của từng Word. |
+| Public | `void save(const Deck& deck, const std::string& path) const` | Ghi Deck ra CSV, escape dấu phẩy, dấu nháy và xuống dòng. |
+| Public | `void load(Deck& deck, const std::string& path) const` | Đọc CSV có header; vẫn chấp nhận CSV cũ gồm `term,partOfSpeech,meaning`. |
 | Public | `bool exists(const std::string& path) const` | |
 
 ### Menu  (Duy)
 
 | Phạm vi | Thành phần | Ghi chú |
 |---|---|---|
-| Private | `FileManager fileManager`; `const std::string dataPath = "data/words.bin"` | Thành phần bổ sung. |
+| Private | `FileManager fileManager`; `const std::string dataPath = "data/words.csv"` | Thành phần bổ sung. |
 | Private | `void loadOnStart()` | Nếu file chưa có: bỏ qua, `Deck` rỗng; nếu file hỏng: cảnh báo, `Deck` rỗng, không crash. |
 | Private | `void saveOnExit()` | Lưu khi chọn Thoát (có thể thêm mục “Lưu ngay” trong menu). |
 | Public | `void run()` | `loadOnStart()` → vòng lặp menu → `saveOnExit()`. |

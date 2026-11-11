@@ -5,139 +5,230 @@
 #include "../include/VocabularyWord.h"
 #include "../include/Word.h"
 
+#include <fstream>
+#include <sstream>
 #include <stdexcept>
 #include <utility>
+#include <vector>
 
-void FileManager::writeString(ofstream& stream, const string& value) const {
-    uint32_t length = static_cast<uint32_t>(value.size());
-    stream.write(reinterpret_cast<const char*>(&length), sizeof(length));
-    stream.write(value.c_str(), length);
+namespace {
 
-    if (!stream) {
-        throw runtime_error("Could not write string to file.");
+const vector<string> STORAGE_HEADER = {
+    "id", "type", "term", "partOfSpeech", "meaning", "reviewCount",
+    "nextReviewDate"};
+
+string escapeField(const string& field) {
+    bool needsQuotes = false;
+    string escaped;
+    for (char character : field) {
+        if (character == ',' || character == '"' || character == '\n' ||
+            character == '\r') {
+            needsQuotes = true;
+        }
+        if (character == '"') {
+            escaped += "\"\"";
+        } else {
+            escaped += character;
+        }
+    }
+
+    return needsQuotes ? "\"" + escaped + "\"" : escaped;
+}
+
+vector<vector<string>> parseCsv(const string& contents) {
+    vector<vector<string>> records;
+    vector<string> fields;
+    string field;
+    bool inQuotes = false;
+    bool afterQuote = false;
+
+    for (size_t index = 0; index < contents.size(); ++index) {
+        const char character = contents[index];
+        if (inQuotes) {
+            if (character == '"') {
+                if (index + 1 < contents.size() &&
+                    contents[index + 1] == '"') {
+                    field += '"';
+                    ++index;
+                } else {
+                    inQuotes = false;
+                    afterQuote = true;
+                }
+            } else {
+                field += character;
+            }
+            continue;
+        }
+
+        if (afterQuote) {
+            if (character == ',') {
+                fields.push_back(field);
+                field.clear();
+                afterQuote = false;
+            } else if (character == '\n' || character == '\r') {
+                fields.push_back(field);
+                records.push_back(fields);
+                fields.clear();
+                field.clear();
+                afterQuote = false;
+                if (character == '\r' && index + 1 < contents.size() &&
+                    contents[index + 1] == '\n') {
+                    ++index;
+                }
+            } else {
+                throw runtime_error("Invalid characters after quoted CSV field.");
+            }
+            continue;
+        }
+
+        if (character == ',') {
+            fields.push_back(field);
+            field.clear();
+        } else if (character == '\n' || character == '\r') {
+            fields.push_back(field);
+            records.push_back(fields);
+            fields.clear();
+            field.clear();
+            if (character == '\r' && index + 1 < contents.size() &&
+                contents[index + 1] == '\n') {
+                ++index;
+            }
+        } else if (character == '"') {
+            if (!field.empty()) {
+                throw runtime_error("Unexpected quote in CSV field.");
+            }
+            inQuotes = true;
+        } else {
+            field += character;
+        }
+    }
+
+    if (inQuotes) {
+        throw runtime_error("Unterminated quoted CSV field.");
+    }
+    if (afterQuote || !fields.empty() || !field.empty()) {
+        fields.push_back(field);
+        records.push_back(fields);
+    }
+
+    return records;
+}
+
+template <typename Number>
+Number parseNumber(const string& value, const string& fieldName) {
+    istringstream input(value);
+    Number number;
+    input >> number;
+    if (!input || input.peek() != char_traits<char>::eof()) {
+        throw runtime_error("Invalid " + fieldName + " in vocabulary CSV.");
+    }
+    return number;
+}
+
+void requireFieldCount(const vector<string>& fields, size_t expected) {
+    if (fields.size() != expected) {
+        throw runtime_error("Invalid number of fields in vocabulary CSV.");
     }
 }
 
-string FileManager::readString(ifstream& stream) const {
-    uint32_t length;
-    stream.read(reinterpret_cast<char*>(&length), sizeof(length));
-    if (!stream) {
-        throw runtime_error("Could not read string length from file.");
-    }
-
-    string value(length, '\0');
-    stream.read(&value[0], length);
-    if (!stream) {
-        throw runtime_error("Could not read string from file.");
-    }
-    return value;
-}
-
-void FileManager::writeWord(ofstream& stream, const Word& word) const {
-    char type;
-    if (word.getTypeName() == "Phrase") {
-        type = 'P';
-    } else {
-        type = 'V';
-    }
-
-    int id = word.getId();
-    int reviewCount = word.getReviewCount();
-    time_t nextReviewDate = word.getNextReviewDate();
-
-    stream.write(&type, sizeof(type));
-    stream.write(reinterpret_cast<const char*>(&id), sizeof(id));
-    writeString(stream, word.getTerm());
-    writeString(stream, word.getPartOfSpeech());
-    writeString(stream, word.getMeaning());
-    stream.write(reinterpret_cast<const char*>(&reviewCount),
-                 sizeof(reviewCount));
-    stream.write(reinterpret_cast<const char*>(&nextReviewDate),
-                 sizeof(nextReviewDate));
-
-    if (!stream) {
-        throw runtime_error("Could not write word to file.");
-    }
-}
-
-unique_ptr<Word> FileManager::readWord(ifstream& stream) const {
-    char type;
-    int id;
-    int reviewCount;
-    time_t nextReviewDate;
-
-    stream.read(&type, sizeof(type));
-    stream.read(reinterpret_cast<char*>(&id), sizeof(id));
-    string term = readString(stream);
-    string partOfSpeech = readString(stream);
-    string meaning = readString(stream);
-    stream.read(reinterpret_cast<char*>(&reviewCount), sizeof(reviewCount));
-    stream.read(reinterpret_cast<char*>(&nextReviewDate),
-                sizeof(nextReviewDate));
-
-    if (!stream) {
-        throw runtime_error("Could not read word from file.");
-    }
-
-    unique_ptr<Word> word;
-    if (type == 'P') {
-        word = make_unique<PhraseWord>(id, term, partOfSpeech, meaning);
-    } else if (type == 'V') {
-        word = make_unique<VocabularyWord>(id, term, partOfSpeech, meaning);
-    } else {
-        throw runtime_error("Unknown word type in file.");
-    }
-
-    word->setReviewState(reviewCount, nextReviewDate);
-    return word;
-}
+}  // namespace
 
 void FileManager::save(const Deck& deck, const string& path) const {
-    ofstream stream(path, ios::binary);
+    ofstream stream(path);
     if (!stream) {
         throw runtime_error("Could not open file for writing: " + path);
     }
 
-    uint32_t wordCount = static_cast<uint32_t>(deck.size());
-    stream.write(reinterpret_cast<const char*>(&MAGIC), sizeof(MAGIC));
-    stream.write(reinterpret_cast<const char*>(&VERSION), sizeof(VERSION));
-    stream.write(reinterpret_cast<const char*>(&wordCount), sizeof(wordCount));
+    for (size_t index = 0; index < STORAGE_HEADER.size(); ++index) {
+        if (index != 0) {
+            stream << ',';
+        }
+        stream << STORAGE_HEADER[index];
+    }
+    stream << '\n';
 
     for (const auto& word : deck.all()) {
-        writeWord(stream, *word);
+        if (word == nullptr) {
+            continue;
+        }
+        stream << word->getId() << ','
+               << escapeField(word->getTypeName()) << ','
+               << escapeField(word->getTerm()) << ','
+               << escapeField(word->getPartOfSpeech()) << ','
+               << escapeField(word->getMeaning()) << ','
+               << word->getReviewCount() << ','
+               << word->getNextReviewDate() << '\n';
     }
 
     if (!stream) {
-        throw runtime_error("Could not save vocabulary file.");
+        throw runtime_error("Could not save vocabulary CSV file: " + path);
     }
 }
 
 void FileManager::load(Deck& deck, const string& path) const {
-    ifstream stream(path, ios::binary);
+    ifstream stream(path);
     if (!stream) {
         throw runtime_error("Could not open file for reading: " + path);
     }
 
-    uint32_t magic;
-    uint16_t version;
-    uint32_t wordCount;
+    const string contents((istreambuf_iterator<char>(stream)),
+                          istreambuf_iterator<char>());
+    if (stream.bad()) {
+        throw runtime_error("Could not read vocabulary CSV file: " + path);
+    }
 
-    stream.read(reinterpret_cast<char*>(&magic), sizeof(magic));
-    stream.read(reinterpret_cast<char*>(&version), sizeof(version));
-    stream.read(reinterpret_cast<char*>(&wordCount), sizeof(wordCount));
-    if (!stream || magic != MAGIC || version != VERSION) {
-        throw runtime_error("Invalid or damaged vocabulary file.");
+    vector<vector<string>> records = parseCsv(contents);
+    if (!records.empty() && records.front().size() == 1 &&
+        records.front().front().empty()) {
+        records.erase(records.begin());
+    }
+
+    bool hasStorageHeader = false;
+    if (!records.empty() && records.front() == STORAGE_HEADER) {
+        hasStorageHeader = true;
+        records.erase(records.begin());
     }
 
     Deck loadedDeck;
-    for (uint32_t i = 0; i < wordCount; ++i) {
-        loadedDeck.adopt(readWord(stream));
+    for (const auto& fields : records) {
+        if (fields.size() == 1 && fields.front().empty()) {
+            continue;
+        }
+
+        if (!hasStorageHeader) {
+            requireFieldCount(fields, 3);
+            if (!loadedDeck.addWord(fields[0], fields[1], fields[2])) {
+                throw runtime_error("Duplicate term in vocabulary CSV.");
+            }
+            continue;
+        }
+
+        requireFieldCount(fields, STORAGE_HEADER.size());
+        const int id = parseNumber<int>(fields[0], "word ID");
+        const int reviewCount = parseNumber<int>(fields[5], "review count");
+        const time_t nextReviewDate =
+            parseNumber<time_t>(fields[6], "next review date");
+        if (id < 1 || reviewCount < 0) {
+            throw runtime_error("Invalid word ID or review count in vocabulary CSV.");
+        }
+
+        unique_ptr<Word> word;
+        if (fields[1] == "Phrase") {
+            word = make_unique<PhraseWord>(id, fields[2], fields[3], fields[4]);
+        } else if (fields[1] == "Vocabulary") {
+            word = make_unique<VocabularyWord>(
+                id, fields[2], fields[3], fields[4]);
+        } else {
+            throw runtime_error("Unknown word type in vocabulary CSV.");
+        }
+        word->setReviewState(reviewCount, nextReviewDate);
+        loadedDeck.adopt(std::move(word));
     }
 
     deck = std::move(loadedDeck);
 }
 
 bool FileManager::exists(const string& path) const {
-    ifstream stream(path, ios::binary);
+    ifstream stream(path);
     return stream.good();
 }

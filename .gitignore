@@ -1,2 +1,3 @@
 /src/build
-/data/words.bin
+/data/words.csv
+/data/review_intervals.csv

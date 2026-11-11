@@ -13,6 +13,7 @@ int Menu::readChoice() const {
          << "3. List words\n"
          << "4. Review due words\n"
          << "5. Import/export CSV\n"
+         << "6. Adjust review intervals\n"
          << "0. Save and exit\n"
          << "Choose: ";
 
@@ -48,6 +49,18 @@ void Menu::loadOnStart() {
     }
 }
 
+void Menu::loadReviewSettings() {
+    try {
+        if (scheduler.loadIntervals(reviewIntervalsPath)) {
+            cout << "Loaded custom review intervals.\n";
+        }
+    } catch (const exception& error) {
+        cout << "Could not load custom review intervals: " << error.what()
+             << '\n'
+             << "Using default intervals.\n";
+    }
+}
+
 void Menu::saveOnExit() {
     try {
         fileManager.save(deck, dataPath);
@@ -59,7 +72,7 @@ void Menu::saveOnExit() {
 
 void Menu::handleSearch() {
     try {
-        search.menuSearch(deck);
+        search.menuSearch();
         cout << "Search finished.\n";
     } catch (const exception& error) {
         cout << "Could not search deck: " << error.what() << '\n';
@@ -68,6 +81,7 @@ void Menu::handleSearch() {
 
 
 void Menu::run() {
+    loadReviewSettings();
     loadOnStart();
 
     while (true) {
@@ -93,8 +107,11 @@ void Menu::run() {
             case 5:
                 handleImportExport();
                 break;
+            case 6:
+                handleReviewSettings();
+                break;
             default:
-                cout << "Invalid choice. Enter a number from 0 to 5.\n";
+                cout << "Invalid choice. Enter a number from 0 to 6.\n";
                 break;
         }
     }

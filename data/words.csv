@@ -1,0 +1,10 @@
+id,type,term,partOfSpeech,meaning,reviewCount,nextReviewDate
+1,Vocabulary,apple,noun,quả táoo,1,1794495580
+2,Vocabulary,book,noun,quyển sách,1,1794495584
+3,Vocabulary,bright,adjective,sáng sủa,1,1794495587
+4,Vocabulary,carefully,adverb,một cách cẩn thận,1,1794495590
+5,Vocabulary,discover,verb,khám phá,1,1794495599
+6,Vocabulary,journey,noun,chuyến đi,1,1794495600
+7,Phrase,look after,phrasal verb,chăm sóc,1,1794495602
+8,Phrase,piece of cake,idiom,"việc rất dễ làm, dễ như ăn bánh",1,1794495609
+9,Phrase,take off,phrasal verb,cất cánh,0,1794495615
