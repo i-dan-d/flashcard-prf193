@@ -86,6 +86,15 @@ std::string readTextFile(const std::filesystem::path& path) {
                        std::istreambuf_iterator<char>());
 }
 
+std::time_t localDateTimestamp(int year, int month, int day) {
+    std::tm localDate = {};
+    localDate.tm_year = year - 1900;
+    localDate.tm_mon = month - 1;
+    localDate.tm_mday = day;
+    localDate.tm_isdst = -1;
+    return std::mktime(&localDate);
+}
+
 void testWordFactoryAndStringUtilities() {
     std::unique_ptr<Word> vocabulary =
         Word::create(7, "apple", "noun", "fruit");
@@ -334,10 +343,14 @@ void testCsvImportValidationAndQuoting() {
     TemporaryDirectory temporary;
     const auto inputPath = temporary.file("import.csv");
     writeTextFile(inputPath,
+                  "\xEF\xBB\xBF"
+                  "term,partOfSpeech,meaning,reviewCount,nextReviewDate\n"
                   "apple,noun,fruit\n"
                   "\"look up\",verb,search\n"
                   "\"say \"\"hello\"\"\",verb,speak\n"
                   "remember,verb,recall,2,1700001000\n"
+                  "dated,verb,calendar,1,15/11/2023\n"
+                  "bad-date,verb,calendar,1,31/02/2023\n"
                   "bad,noun,entry,not-a-level,1700001000\n"
                   "bad,line\n"
                   "APPLE,noun,duplicate\n");
@@ -347,7 +360,7 @@ void testCsvImportValidationAndQuoting() {
     int skipped = -1;
     const int imported =
         csv.importFrom(inputPath.string(), deck, skipped);
-    require(imported == 4 && skipped == 3 && deck.size() == 4,
+    require(imported == 5 && skipped == 4 && deck.size() == 5,
             "CSV import should count valid, malformed, and duplicate rows");
     require(deck.findByTerm("say \"hello\"") != nullptr,
             "CSV import should decode escaped quotation marks");
@@ -357,6 +370,9 @@ void testCsvImportValidationAndQuoting() {
                 deck.findByTerm("remember")->getNextReviewDate() == 1700001000 &&
                 deck.findByTerm("remember")->getId() == 4,
             "five-field CSV should restore review state and assign IDs locally");
+    require(deck.findByTerm("dated")->getNextReviewDate() ==
+                localDateTimestamp(2023, 11, 15),
+            "CSV import should parse dates in day/month/year format");
 }
 
 void testCsvExportImportRoundTrip() {
@@ -365,17 +381,20 @@ void testCsvExportImportRoundTrip() {
     Deck original;
     original.addWord("look up", "verb", "search, find");
     original.addWord("say \"hello\"", "verb", "greet");
-    original.findByTerm("look up")->setReviewState(2, 1700001000);
-    original.findByTerm("say \"hello\"")->setReviewState(4, 1700002000);
+    original.findByTerm("look up")->setReviewState(
+        2, localDateTimestamp(2023, 11, 15));
+    original.findByTerm("say \"hello\"")->setReviewState(
+        4, localDateTimestamp(2023, 11, 16));
 
     CsvManager csv;
     csv.exportTo(exportPath.string(), original);
     const std::string exported = readTextFile(exportPath);
     require(exported ==
-                "look up,verb,\"search, find\",2,1700001000\n"
-                "\"say \"\"hello\"\"\",verb,greet,4,1700002000\n",
-            "CSV export should write five fields, omit IDs, and escape commas "
-            "and quotes");
+                "term,partOfSpeech,meaning,reviewCount,nextReviewDate\n"
+                "look up,verb,\"search, find\",2,15/11/2023\n"
+                "\"say \"\"hello\"\"\",verb,greet,4,16/11/2023\n",
+            "CSV export should include headers, readable dates, omit IDs, and "
+            "escape commas and quotes");
 
     Deck imported;
     int skipped = -1;
@@ -386,10 +405,10 @@ void testCsvExportImportRoundTrip() {
                 imported.findByTerm("say \"hello\"")->getMeaning() == "greet" &&
                 imported.findByTerm("look up")->getReviewCount() == 2 &&
                 imported.findByTerm("look up")->getNextReviewDate() ==
-                    1700001000 &&
+                    localDateTimestamp(2023, 11, 15) &&
                 imported.findByTerm("say \"hello\"")->getReviewCount() == 4 &&
                 imported.findByTerm("say \"hello\"")->getNextReviewDate() ==
-                    1700002000 &&
+                    localDateTimestamp(2023, 11, 16) &&
                 imported.findByTerm("look up")->getId() == 1 &&
                 imported.findByTerm("say \"hello\"")->getId() == 2,
             "CSV round trip should preserve word and review data with new IDs");

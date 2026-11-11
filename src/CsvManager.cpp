@@ -3,7 +3,9 @@
 #include "Word.h"
 #include "CsvManager.h"
 
+#include <ctime>
 #include <fstream>
+#include <iomanip>
 #include <sstream>
 #include <stdexcept>
 #include <vector>
@@ -15,6 +17,83 @@ bool parseNumber(const string& value, Number& number) {
     istringstream input(value);
     input >> number;
     return input && input.peek() == char_traits<char>::eof();
+}
+
+string formatDate(time_t timestamp) {
+    if (timestamp == 0) {
+        return "";
+    }
+
+    tm localTime = {};
+#ifdef _WIN32
+    if (localtime_s(&localTime, &timestamp) != 0) {
+        throw runtime_error("Could not format review date.");
+    }
+#else
+    if (localtime_r(&timestamp, &localTime) == nullptr) {
+        throw runtime_error("Could not format review date.");
+    }
+#endif
+
+    ostringstream formatted;
+    formatted << put_time(&localTime, "%d/%m/%Y");
+    return formatted.str();
+}
+
+bool parseReviewDate(const string& value, time_t& timestamp) {
+    if (value.empty()) {
+        timestamp = 0;
+        return true;
+    }
+
+    if (parseNumber(value, timestamp)) {
+        return true;
+    }
+
+    tm localTime = {};
+    char firstSeparator = '\0';
+    char secondSeparator = '\0';
+    istringstream input(value);
+    if (!(input >> localTime.tm_mday >> firstSeparator >>
+          localTime.tm_mon >> secondSeparator >> localTime.tm_year) ||
+        firstSeparator != '/' || secondSeparator != '/' ||
+        input.peek() != char_traits<char>::eof()) {
+        return false;
+    }
+
+    if (localTime.tm_year < 1000) {
+        return false;
+    }
+    localTime.tm_mon -= 1;
+    localTime.tm_year -= 1900;
+    localTime.tm_isdst = -1;
+
+    const int expectedDay = localTime.tm_mday;
+    const int expectedMonth = localTime.tm_mon;
+    const int expectedYear = localTime.tm_year;
+    const time_t parsed = mktime(&localTime);
+    if (parsed == static_cast<time_t>(-1)) {
+        return false;
+    }
+
+    tm verified = {};
+#ifdef _WIN32
+    if (localtime_s(&verified, &parsed) != 0) {
+        return false;
+    }
+#else
+    if (localtime_r(&parsed, &verified) == nullptr) {
+        return false;
+    }
+#endif
+    if (verified.tm_mday != expectedDay ||
+        verified.tm_mon != expectedMonth ||
+        verified.tm_year != expectedYear) {
+        return false;
+    }
+
+    timestamp = parsed;
+    return true;
 }
 
 }  // namespace
@@ -109,7 +188,7 @@ bool CsvManager::parseLine(const string& line,
         int reviewCount;
         time_t nextReviewDate;
         if (!parseNumber(fields[3], reviewCount) || reviewCount < 0 ||
-            !parseNumber(fields[4], nextReviewDate)) {
+            !parseReviewDate(fields[4], nextReviewDate)) {
             return false;
         }
     }
@@ -128,7 +207,20 @@ int CsvManager::importFrom(const string& path, Deck& deck,
     skippedLines = 0;
     int importedCount = 0;
     string line;
+    bool firstLine = true;
     while (getline(file, line)) {
+        if (firstLine && line.size() >= 3 &&
+            static_cast<unsigned char>(line[0]) == 0xEF &&
+            static_cast<unsigned char>(line[1]) == 0xBB &&
+            static_cast<unsigned char>(line[2]) == 0xBF) {
+            line.erase(0, 3);
+        }
+        firstLine = false;
+
+        if (line == "term,partOfSpeech,meaning,reviewCount,nextReviewDate") {
+            continue;
+        }
+
         vector<string> fields;
         if (!parseLine(line, fields)) {
             skippedLines++;
@@ -139,7 +231,7 @@ int CsvManager::importFrom(const string& path, Deck& deck,
         time_t nextReviewDate = 0;
         if (fields.size() == 5 &&
             (!parseNumber(fields[3], reviewCount) || reviewCount < 0 ||
-             !parseNumber(fields[4], nextReviewDate))) {
+             !parseReviewDate(fields[4], nextReviewDate))) {
             skippedLines++;
             continue;
         }
@@ -168,7 +260,7 @@ void CsvManager::exportTo(const string& path, const Deck& deck) const {
     if (!file.is_open()) {
         throw runtime_error("Cannot open CSV file for writing: " + path);
     }
-    // duyệt toàn bộ word trong deck
+    file << "term,partOfSpeech,meaning,reviewCount,nextReviewDate\n";
     for (const auto& wordPtr : deck.all()) {
         if (wordPtr == nullptr) {
             continue;
@@ -178,7 +270,7 @@ void CsvManager::exportTo(const string& path, const Deck& deck) const {
              << escapeField(wordPtr->getPartOfSpeech()) << ','
              << escapeField(wordPtr->getMeaning()) << ','
              << wordPtr->getReviewCount() << ','
-             << wordPtr->getNextReviewDate() << '\n';
+             << formatDate(wordPtr->getNextReviewDate()) << '\n';
 
     }
     // kiểu tra lỗi ghi 

@@ -20,7 +20,7 @@
 | 6 | Review due-date boundary/order, answer checking, correct and incorrect review updates | PASS |
 | 7 | Custom review intervals persistence and randomized multiple-choice distractors | PASS |
 | 8 | CSV import of valid, malformed, duplicate and quoted records | PASS |
-| 9 | CSV export/import round trip, including review state, generated IDs, comma and quote escaping | PASS |
+| 9 | CSV export/import round trip, including headers, editable dates, review state, generated IDs, comma and quote escaping | PASS |
 | 10 | CSV import reports a missing input file | PASS |
 | 11 | CSV storage round trip, types/review state/next ID, legacy three-column file, corrupt and missing files | PASS |
 

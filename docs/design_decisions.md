@@ -92,8 +92,8 @@
 | Phạm vi | Thành phần | Ghi chú |
 |---|---|---|
 | Private | `static std::string escapeField(const std::string& s)`; `static bool parseLine(const std::string& line, std::vector<std::string>& fields)` | |
-| Public | `int importFrom(const std::string& path, Deck& deck, int& skippedLines) const` | Nhận CSV 3 cột cũ hoặc 5 cột `term,partOfSpeech,meaning,reviewCount,nextReviewDate`; bỏ qua và đếm dòng sai định dạng. ID được cấp nội bộ, không nhập từ CSV. |
-| Public | `void exportTo(const std::string& path, const Deck& deck) const` | Ghi 5 cột không có ID; ném `std::runtime_error` nếu không ghi được. |
+| Public | `int importFrom(const std::string& path, Deck& deck, int& skippedLines) const` | Nhận CSV 3 cột cũ hoặc 5 cột `term,partOfSpeech,meaning,reviewCount,nextReviewDate`, có/không tiêu đề; ngày đọc theo `dd/MM/yyyy` hoặc timestamp cũ. Bỏ qua và đếm dòng sai định dạng. ID được cấp nội bộ, không nhập từ CSV. |
+| Public | `void exportTo(const std::string& path, const Deck& deck) const` | Ghi tiêu đề và 5 cột không có ID; ngày dùng `dd/MM/yyyy`, ngày chưa đặt để trống. Ném `std::runtime_error` nếu không ghi được. |
 
 ### Menu (giao diện duy nhất; `main()` chỉ gọi `Menu().run()`) — người giữ: Duy
 

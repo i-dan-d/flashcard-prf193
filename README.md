@@ -14,7 +14,7 @@ Người dùng có thể tạo và quản lý một bộ từ vựng cá nhân n
 - **Tìm kiếm:** tìm thẻ theo từ/cụm từ hoặc nghĩa.
 - **Xem và sắp xếp:** xem toàn bộ bộ thẻ, sắp xếp theo bảng chữ cái hoặc trạng thái ôn tập.
 - **Ôn tập:** đưa ra các thẻ đến hạn dưới dạng trắc nghiệm với tối đa ba đáp án gây nhiễu lấy ngẫu nhiên từ Deck. Lịch lặp có năm mốc ngày có thể chỉnh trong menu và được lưu tại `data/review_intervals.csv`.
-- **Trao đổi dữ liệu:** nhập và xuất danh sách từ bằng CSV.
+- **Trao đổi dữ liệu:** nhập và xuất CSV có tiêu đề cột; ngày ôn tiếp theo dùng định dạng `dd/MM/yyyy` để dễ đọc và chỉnh sửa.
 - **Lưu trữ:** tự động nạp và lưu bộ thẻ trong `data/words.csv` để dữ liệu còn sau khi thoát ứng dụng.
 
 ## Cách sử dụng dự kiến
