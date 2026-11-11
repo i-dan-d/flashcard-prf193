@@ -10,6 +10,8 @@
 #include "WordLister.h"
 
 #include <chrono>
+#include <algorithm>
+#include <array>
 #include <filesystem>
 #include <fstream>
 #include <functional>
@@ -267,6 +269,67 @@ void testReviewSchedulingAndAnswers() {
             "nextDue should return nullptr when no words are due");
 }
 
+void testReviewIntervalsAndMultipleChoice() {
+    constexpr std::time_t now = 1700000000;
+    constexpr std::time_t day = 24 * 60 * 60;
+    TemporaryDirectory temporary;
+    const auto settingsPath = temporary.file("review_intervals.csv");
+
+    Deck deck;
+    deck.addWord("apple", "noun", "fruit");
+    deck.addWord("book", "noun", "pages");
+    deck.addWord("chair", "noun", "furniture");
+    deck.addWord("desk", "noun", "table");
+    deck.addWord("pear", "noun", "fruit");
+
+    ReviewScheduler scheduler(deck);
+    scheduler.setIntervals({2, 4, 8, 16, 32});
+    Word* apple = deck.findByTerm("apple");
+    scheduler.markResult(*apple, true, now);
+    require(apple->getReviewCount() == 1 &&
+                apple->getNextReviewDate() == now + 2 * day,
+            "custom first interval should control the next review date");
+
+    std::mt19937 random(7);
+    const auto choices = scheduler.multipleChoiceChoices(*apple, random);
+    require(choices.size() == 4 &&
+                std::count(choices.begin(), choices.end(), apple) == 1,
+            "multiple-choice should include the answer and three distractors");
+    for (size_t index = 0; index < choices.size(); ++index) {
+        require(choices[index] != nullptr,
+                "multiple-choice options should not be null");
+        for (size_t other = index + 1; other < choices.size(); ++other) {
+            require(!StringUtil::equalsIgnoreCase(
+                        choices[index]->getMeaning(),
+                        choices[other]->getMeaning()),
+                    "multiple-choice meanings should be distinct");
+        }
+    }
+
+    scheduler.saveIntervals(settingsPath.string());
+    ReviewScheduler restoredScheduler(deck);
+    require(restoredScheduler.loadIntervals(settingsPath.string()) &&
+                restoredScheduler.intervals() ==
+                    std::array<int, 5>{2, 4, 8, 16, 32},
+            "custom review intervals should persist and load");
+    require(!restoredScheduler.loadIntervals(
+                temporary.file("missing_intervals.csv").string()),
+            "missing settings should keep default review intervals");
+
+    requireThrows<std::invalid_argument>(
+        [&] { scheduler.setIntervals({1, 3, 2, 15, 30}); },
+        "review intervals should reject non-increasing schedules");
+
+    Deck smallDeck;
+    smallDeck.addWord("only", "noun", "single answer");
+    ReviewScheduler smallScheduler(smallDeck);
+    const auto singleChoice = smallScheduler.multipleChoiceChoices(
+        *smallDeck.findByTerm("only"), random);
+    require(singleChoice.size() == 1 &&
+                singleChoice.front() == smallDeck.findByTerm("only"),
+            "multiple-choice should adapt when the deck has no distractors");
+}
+
 void testCsvImportValidationAndQuoting() {
     TemporaryDirectory temporary;
     const auto inputPath = temporary.file("import.csv");
@@ -274,6 +337,8 @@ void testCsvImportValidationAndQuoting() {
                   "apple,noun,fruit\n"
                   "\"look up\",verb,search\n"
                   "\"say \"\"hello\"\"\",verb,speak\n"
+                  "remember,verb,recall,2,1700001000\n"
+                  "bad,noun,entry,not-a-level,1700001000\n"
                   "bad,line\n"
                   "APPLE,noun,duplicate\n");
 
@@ -282,12 +347,16 @@ void testCsvImportValidationAndQuoting() {
     int skipped = -1;
     const int imported =
         csv.importFrom(inputPath.string(), deck, skipped);
-    require(imported == 3 && skipped == 2 && deck.size() == 3,
+    require(imported == 4 && skipped == 3 && deck.size() == 4,
             "CSV import should count valid, malformed, and duplicate rows");
     require(deck.findByTerm("say \"hello\"") != nullptr,
             "CSV import should decode escaped quotation marks");
     require(deck.findByTerm("look up")->getTypeName() == "Phrase",
             "imported terms should use the Word factory's type rule");
+    require(deck.findByTerm("remember")->getReviewCount() == 2 &&
+                deck.findByTerm("remember")->getNextReviewDate() == 1700001000 &&
+                deck.findByTerm("remember")->getId() == 4,
+            "five-field CSV should restore review state and assign IDs locally");
 }
 
 void testCsvExportImportRoundTrip() {
@@ -296,15 +365,17 @@ void testCsvExportImportRoundTrip() {
     Deck original;
     original.addWord("look up", "verb", "search, find");
     original.addWord("say \"hello\"", "verb", "greet");
+    original.findByTerm("look up")->setReviewState(2, 1700001000);
+    original.findByTerm("say \"hello\"")->setReviewState(4, 1700002000);
 
     CsvManager csv;
     csv.exportTo(exportPath.string(), original);
     const std::string exported = readTextFile(exportPath);
     require(exported ==
-                "look up,verb,\"search, find\"\n"
-                "\"say \"\"hello\"\"\",verb,greet\n",
-            "CSV export should write the three-field import format and escape "
-            "commas and quotes");
+                "look up,verb,\"search, find\",2,1700001000\n"
+                "\"say \"\"hello\"\"\",verb,greet,4,1700002000\n",
+            "CSV export should write five fields, omit IDs, and escape commas "
+            "and quotes");
 
     Deck imported;
     int skipped = -1;
@@ -312,8 +383,16 @@ void testCsvExportImportRoundTrip() {
                 skipped == 0 && imported.size() == original.size(),
             "exported CSV should import without skipped rows");
     require(imported.findByTerm("look up")->getMeaning() == "search, find" &&
-                imported.findByTerm("say \"hello\"")->getMeaning() == "greet",
-            "CSV round trip should preserve terms and meanings");
+                imported.findByTerm("say \"hello\"")->getMeaning() == "greet" &&
+                imported.findByTerm("look up")->getReviewCount() == 2 &&
+                imported.findByTerm("look up")->getNextReviewDate() ==
+                    1700001000 &&
+                imported.findByTerm("say \"hello\"")->getReviewCount() == 4 &&
+                imported.findByTerm("say \"hello\"")->getNextReviewDate() ==
+                    1700002000 &&
+                imported.findByTerm("look up")->getId() == 1 &&
+                imported.findByTerm("say \"hello\"")->getId() == 2,
+            "CSV round trip should preserve word and review data with new IDs");
 }
 
 void testCsvMissingFileError() {
@@ -331,27 +410,30 @@ void testCsvMissingFileError() {
 
 void testFileManagerRoundTripAndErrors() {
     TemporaryDirectory temporary;
-    const auto binaryPath = temporary.file("words.bin");
-    const auto corruptPath = temporary.file("corrupt.bin");
+    const auto csvPath = temporary.file("words.csv");
+    const auto corruptPath = temporary.file("corrupt.csv");
     Deck original;
     original.addWord("apple", "noun", "fruit");
     original.addWord("look up", "verb", "search");
     original.findByTerm("apple")->setReviewState(3, 1700001000);
+    original.findByTerm("look up")->setMeaning("search, \"find\"\nlook for");
 
     FileManager files;
-    files.save(original, binaryPath.string());
-    require(files.exists(binaryPath.string()),
+    files.save(original, csvPath.string());
+    require(files.exists(csvPath.string()),
             "save should create a file recognized by exists");
 
     Deck loaded;
     loaded.addWord("discarded", "noun", "old data");
-    files.load(loaded, binaryPath.string());
+    files.load(loaded, csvPath.string());
     require(loaded.size() == 2 &&
                 loaded.findByTerm("apple")->getTypeName() == "Vocabulary" &&
                 loaded.findByTerm("look up")->getTypeName() == "Phrase" &&
                 loaded.findByTerm("apple")->getReviewCount() == 3 &&
-                loaded.findByTerm("apple")->getNextReviewDate() == 1700001000,
-            "binary load should restore words, types, and review state");
+                loaded.findByTerm("apple")->getNextReviewDate() == 1700001000 &&
+                loaded.findByTerm("look up")->getMeaning() ==
+                    "search, \"find\"\nlook for",
+            "CSV load should restore words, types, review state, and quoting");
     require(loaded.addWord("next", "noun", "following") &&
                 loaded.findByTerm("next")->getId() == 3,
             "loaded Deck should continue IDs after the largest saved ID");
@@ -360,12 +442,20 @@ void testFileManagerRoundTripAndErrors() {
     const std::size_t oldSize = loaded.size();
     requireThrows<std::runtime_error>(
         [&] { files.load(loaded, corruptPath.string()); },
-        "load should reject an invalid binary file");
+        "load should reject an invalid CSV file");
     require(loaded.size() == oldSize,
             "failed load should leave the existing Deck unchanged");
     requireThrows<std::runtime_error>(
-        [&] { files.load(loaded, temporary.file("missing.bin").string()); },
-        "load should report a missing binary file");
+        [&] { files.load(loaded, temporary.file("missing.csv").string()); },
+        "load should report a missing CSV file");
+
+    const auto legacyPath = temporary.file("legacy.csv");
+    writeTextFile(legacyPath, "apple,noun,fruit\nlook up,verb,search\n");
+    files.load(loaded, legacyPath.string());
+    require(loaded.size() == 2 &&
+                loaded.findByTerm("apple")->getId() == 1 &&
+                loaded.findByTerm("look up")->getTypeName() == "Phrase",
+            "load should accept the existing three-column CSV format");
 }
 
 }  // namespace
@@ -378,6 +468,8 @@ int main() {
         {"Search by term and meaning", testSearchByTermAndMeaning},
         {"Word listing and formatting", testWordListingAndFormatting},
         {"Review scheduling and answers", testReviewSchedulingAndAnswers},
+        {"Review intervals and multiple choice",
+         testReviewIntervalsAndMultipleChoice},
         {"CSV import validation and quoting", testCsvImportValidationAndQuoting},
         {"CSV export/import round trip", testCsvExportImportRoundTrip},
         {"CSV missing-file error", testCsvMissingFileError},

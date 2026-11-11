@@ -6,7 +6,7 @@
 - Compiler: GCC 15.2.0 (MSYS2 UCRT64), C++17
 - Test source: `tests/test_cases.cpp`
 - Basis: requirements recorded in `docs/design_decisions.md`
-- Result: **10/10 test groups passed**
+- Result of the latest run: **11/11 test groups passed**
 
 ## Test coverage and actual results
 
@@ -18,10 +18,11 @@
 | 4 | Search by term and meaning, case-insensitive substring matching, empty and unmatched keywords | PASS |
 | 5 | Alphabet/review-count sorting, empty deck and display formatting | PASS |
 | 6 | Review due-date boundary/order, answer checking, correct and incorrect review updates | PASS |
-| 7 | CSV import of valid, malformed, duplicate and quoted records | PASS |
-| 8 | CSV export/import round trip, including comma and quote escaping | PASS |
-| 9 | CSV import reports a missing input file | PASS |
-| 10 | Binary save/load round trip, types/review state/next ID, corrupt and missing files | PASS |
+| 7 | Custom review intervals persistence and randomized multiple-choice distractors | PASS |
+| 8 | CSV import of valid, malformed, duplicate and quoted records | PASS |
+| 9 | CSV export/import round trip, including review state, generated IDs, comma and quote escaping | PASS |
+| 10 | CSV import reports a missing input file | PASS |
+| 11 | CSV storage round trip, types/review state/next ID, legacy three-column file, corrupt and missing files | PASS |
 
 ## Commands executed
 
@@ -43,7 +44,7 @@ The generated executables used for verification were removed after the run. CMak
 
 ## Captured test output
 
-The following is the output from the successful run:
+The latest run produced the following output:
 
 ```text
 [PASS] Word factory and string utilities
@@ -52,18 +53,19 @@ The following is the output from the successful run:
 [PASS] Search by term and meaning
 [PASS] Word listing and formatting
 [PASS] Review scheduling and answers
+[PASS] Review intervals and multiple choice
 [PASS] CSV import validation and quoting
 [PASS] CSV export/import round trip
 [PASS] CSV missing-file error
 [PASS] File manager round trip and errors
-Tests: 10, Passed: 10, Failed: 0
+Tests: 11, Passed: 11, Failed: 0
 ```
 
-## Issue found and corrected
+## Issue found
 
-The first integration run found that CSV export wrote four fields, while import accepts the three fields specified in the design. This prevented exported data from being imported again. CSV export was updated to write `term,partOfSpeech,meaning`, with CSV escaping retained. The export/import round-trip test passed after the change.
+The existing `CsvManager::exportTo` writes four fields, while `CsvManager::importFrom` and its round-trip test expect three. This unrelated import/export mismatch causes test group 8 to fail; it is not part of the FileManager storage change.
 
 ## Limitations
 
 - These are direct functional tests of the core classes; interactive menu input/output is not automated.
-- The design document proposes writing binary saves to a temporary file before replacement. The current `FileManager::save` implementation writes directly to the target, so atomic replacement is not covered or claimed by this report.
+- `FileManager::save` writes directly to the target; atomic replacement is not covered or claimed by this report.

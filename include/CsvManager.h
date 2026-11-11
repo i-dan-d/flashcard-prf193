@@ -2,6 +2,7 @@
 
 #include <string>
 #include <iostream>
+#include <vector>
 using namespace std;
 
 class Deck;
@@ -9,10 +10,7 @@ class Deck;
 class CsvManager {
 private:
     static string escapeField(const string& field);
-    static bool parseLine(const string& line,
-                          string& term,
-                          string& partOfSpeech,
-                          string& meaning);
+    static bool parseLine(const string& line, vector<string>& fields);
 public:
     int importFrom(const string& path, Deck& deck,
                    int& skippedLines) const;

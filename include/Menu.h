@@ -20,16 +20,19 @@ private:
     CsvManager csv;
     FileManager fileManager;
     SearchService search;
-    const string dataPath = "data/words.bin";
+    const string dataPath = "data/words.csv";
+    const string reviewIntervalsPath = "data/review_intervals.csv";
 
     void handleAddEditDelete();
     void handleSearch();
     void handleList();
     void handleReview();
     void handleImportExport();
+    void handleReviewSettings();
 
     int readChoice() const;
     void loadOnStart();
+    void loadReviewSettings();
     void saveOnExit();
 public:
     Menu();

@@ -175,17 +175,17 @@ Phân tích chi tiết luồng xử lý, input/output, điều kiện, và ngo�
 ---
 
 ## 8. Save/Load (Auto khi mở/đóng chương trình)
-**Mô tả:** Tự động lưu Deck ra `words.bin` (binary) khi thoát, tự động nạp lại khi mở chương trình
-**Tiền điều kiện:** Không bắt buộc có sẵn file `words.bin` (nếu chưa có → khởi tạo Deck rỗng)
+**Mô tả:** Tự động lưu Deck ra `data/words.csv` khi thoát, tự động nạp lại khi mở chương trình
+**Tiền điều kiện:** Không bắt buộc có sẵn file `data/words.csv` (nếu chưa có → khởi tạo Deck rỗng)
 **Hậu điều kiện:** Dữ liệu được giữ nguyên giữa các lần chạy chương trình
 
 **Luồng chính:**
-1. Khi mở chương trình → hệ thống kiểm tra file `words.bin` có tồn tại không
+1. Khi mở chương trình → hệ thống kiểm tra file `data/words.csv` có tồn tại không
 2. Nếu có → đọc và nạp vào Deck; nếu không → khởi tạo Deck rỗng
-3. Khi người dùng thoát chương trình → hệ thống ghi Deck hiện tại ra `words.bin`
+3. Khi người dùng thoát chương trình → hệ thống ghi Deck hiện tại ra `data/words.csv`
 
 **Luồng rẽ nhánh:**
-- Tại bước 2: file `words.bin` bị hỏng/sai định dạng → báo cảnh báo, khởi tạo Deck rỗng (không crash)
+- Tại bước 2: file `data/words.csv` bị hỏng/sai định dạng → báo cảnh báo, khởi tạo Deck rỗng (không crash)
 
 | Input | Output |
 |---|---|
