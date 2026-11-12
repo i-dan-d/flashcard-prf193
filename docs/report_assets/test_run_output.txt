@@ -1,0 +1,12 @@
+[PASS] Word factory and string utilities
+[PASS] Deck CRUD and duplicate handling
+[PASS] Deck adopt and next ID
+[PASS] Search by term and meaning
+[PASS] Word listing and formatting
+[PASS] Review scheduling and answers
+[PASS] Review intervals and multiple choice
+[PASS] CSV import validation and quoting
+[PASS] CSV export/import round trip
+[PASS] CSV missing-file error
+[PASS] File manager round trip and errors
+Tests: 11, Passed: 11, Failed: 0

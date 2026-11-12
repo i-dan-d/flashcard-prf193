@@ -2,22 +2,22 @@
 
 Ứng dụng console viết bằng C++ giúp người học xây dựng bộ flashcard từ vựng và ôn tập theo lịch. Mỗi thẻ lưu từ hoặc cụm từ, từ loại, nghĩa và trạng thái ôn tập.
 
-> **Trạng thái:** README mô tả sản phẩm mục tiêu. Mã nguồn hiện tại vẫn đang trong quá trình phát triển; không phải tất cả chức năng bên dưới đã được triển khai hoặc kiểm thử.
+> **Trạng thái:** README này mô tả các chức năng hiện có trong phiên bản dự án.
 
 ## Sản phẩm hướng tới
 
 Người dùng có thể tạo và quản lý một bộ từ vựng cá nhân ngay trong terminal. Ứng dụng hướng đến việc giúp việc học từ mới có tổ chức hơn: dễ thêm nội dung, tra cứu nhanh, theo dõi những từ cần ôn và giữ lại dữ liệu giữa các lần sử dụng.
 
-## Chức năng dự kiến
+## Chức năng
 
-- **Quản lý flashcard:** thêm, chỉnh sửa và xóa từ hoặc cụm từ. Mỗi thẻ gồm nội dung, từ loại và nghĩa.
+- **Quản lý flashcard:** thêm, chỉnh sửa và xóa từ hoặc cụm từ. Mỗi thẻ gồm ID nội bộ, nội dung, từ loại, nghĩa và trạng thái ôn tập.
 - **Tìm kiếm:** tìm thẻ theo từ/cụm từ hoặc nghĩa.
 - **Xem và sắp xếp:** xem toàn bộ bộ thẻ, sắp xếp theo bảng chữ cái hoặc trạng thái ôn tập.
 - **Ôn tập:** đưa ra các thẻ đến hạn dưới dạng trắc nghiệm với tối đa ba đáp án gây nhiễu lấy ngẫu nhiên từ Deck. Lịch lặp có năm mốc ngày có thể chỉnh trong menu và được lưu tại `data/review_intervals.csv`.
 - **Trao đổi dữ liệu:** nhập và xuất CSV có tiêu đề cột; ngày ôn tiếp theo dùng định dạng `dd/MM/yyyy` để dễ đọc và chỉnh sửa.
 - **Lưu trữ:** tự động nạp và lưu bộ thẻ trong `data/words.csv` để dữ liệu còn sau khi thoát ứng dụng.
 
-## Cách sử dụng dự kiến
+## Cách sử dụng
 
 1. Mở ứng dụng và chọn một thao tác từ menu console.
 2. Tạo hoặc nhập các thẻ từ vựng.
@@ -29,7 +29,7 @@ Người dùng có thể tạo và quản lý một bộ từ vựng cá nhân n
 
 Ứng dụng được tổ chức quanh các thành phần chính:
 
-- `Word` biểu diễn dữ liệu chung của một thẻ; `VocabularyWord` và `PhraseWord` dự kiến phân biệt từ đơn với cụm từ.
+- `Word` biểu diễn dữ liệu chung của một thẻ; `VocabularyWord` và `PhraseWord` phân biệt từ đơn với cụm từ.
 - `Deck` quản lý danh sách thẻ.
 - `SearchService`, `WordLister` và `ReviewScheduler` lần lượt phụ trách tìm kiếm, trình bày/sắp xếp và lịch ôn.
 - `CsvManager` phụ trách trao đổi CSV; `FileManager` lưu/nạp bộ thẻ ở `data/words.csv`.
@@ -57,15 +57,26 @@ Flashcard_project/
 
 ## Build và chạy
 
-Mở PowerShell tại thư mục gốc của dự án (`Flashcard_project`) và chạy:
+Project dùng CMake để cấu hình và build ứng dụng cùng các test; CTest chạy
+các test đã đăng ký trong `CMakeLists.txt`. CMake tạo quy trình build, còn
+CTest không tự tạo test — mỗi test cần kiểm tra kết quả và trả mã thoát khác
+0 khi thất bại.
+
+Cài CMake và một compiler C++17 (ví dụ GCC/G++ hoặc Visual Studio), rồi mở
+PowerShell tại thư mục gốc của dự án (`Flashcard_project`):
 
 ```powershell
-$sources = Get-ChildItem .\src\*.cpp | ForEach-Object { $_.FullName }
-g++ -std=c++17 -Wall -Wextra -pedantic -Iinclude $sources -o .\Flashcard-Vocabulary-Manager.exe
-.\Flashcard-Vocabulary-Manager.exe
+cmake -S . -B build
+cmake --build build
+ctest --test-dir build --output-on-failure
+.\build\Flashcard-Vocabulary-Manager.exe
 ```
 
-Lệnh đầu tiên biên dịch tất cả file `.cpp` trong `src` thành `Flashcard-Vocabulary-Manager.exe`; lệnh tiếp theo chạy ứng dụng. Cần cài GCC/G++ và đảm bảo `g++` có trong `PATH`.
+`cmake -S . -B build` cấu hình project và sinh build files trong `build`;
+`cmake --build build` biên dịch ứng dụng và test; `ctest` chạy test và hiển
+thị lỗi nếu có. Có thể build riêng ứng dụng với
+`cmake --build build --target Flashcard-Vocabulary-Manager`, hoặc chỉ build
+các test với `cmake --build build --target test_cases test_word_lister`.
 
 Trên Windows, ứng dụng đặt console input/output ở UTF-8 để hiển thị và nhập nghĩa tiếng Việt; nên dùng terminal hỗ trợ Unicode.
 

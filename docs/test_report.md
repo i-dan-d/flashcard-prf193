@@ -2,7 +2,7 @@
 
 ## Test information
 
-- Date: 2026-11-09
+- Date: 2026-11-11
 - Compiler: GCC 15.2.0 (MSYS2 UCRT64), C++17
 - Test source: `tests/test_cases.cpp`
 - Basis: requirements recorded in `docs/design_decisions.md`
@@ -40,7 +40,7 @@ $sources = Get-ChildItem .\src\*.cpp | ForEach-Object { $_.FullName }
 g++ -std=c++17 -Wall -Wextra -pedantic -Iinclude $sources -o tests\app_smoke.exe
 ```
 
-The generated executables used for verification were removed after the run. CMake/CTest was not run because `cmake` was not available in the environment; the test target is registered in `CMakeLists.txt` for environments with CMake installed.
+The generated executables used for verification were removed after the run. CMake/CTest was not run; the project test targets are registered in `CMakeLists.txt`.
 
 ## Captured test output
 
@@ -60,10 +60,6 @@ The latest run produced the following output:
 [PASS] File manager round trip and errors
 Tests: 11, Passed: 11, Failed: 0
 ```
-
-## Issue found
-
-The existing `CsvManager::exportTo` writes four fields, while `CsvManager::importFrom` and its round-trip test expect three. This unrelated import/export mismatch causes test group 8 to fail; it is not part of the FileManager storage change.
 
 ## Limitations
 

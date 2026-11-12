@@ -136,7 +136,18 @@
 | Public | `void run()` | `loadOnStart()` → vòng lặp menu → `saveOnExit()`. |
 
 ### Deck (phần thay đổi cần bổ sung Duy đã làm)
-
 | Phạm vi | Thành phần | Ghi chú |
 |---|---|---|
 | Public | `adopt(std::unique_ptr<Word> w)` | Cập nhật `nextId = max(nextId, w->getId() + 1)`. Nếu không, từ thêm mới sau khi nạp file có thể trùng `IdWord`. |
+
+## 7. Build và kiểm thử
+
+- **CMake** cấu hình project, khai báo thư viện core, ứng dụng và các executable
+  kiểm thử trong `CMakeLists.txt`. CMake sinh build files; compiler mới thực hiện
+  việc biên dịch.
+- **CTest** là bộ chạy kiểm thử của CMake. `include(CTest)` bật tùy chọn
+  `BUILD_TESTING`; các test được thêm bằng `add_test` sẽ được chạy qua
+  `ctest --test-dir build --output-on-failure`.
+- Mỗi executable test phải tự kiểm tra kết quả và trả mã thoát khác `0` nếu có
+  lỗi để CTest báo thất bại. Build và chạy ứng dụng/test được hướng dẫn trong
+  README.

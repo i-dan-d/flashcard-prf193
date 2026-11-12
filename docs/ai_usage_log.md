@@ -16,7 +16,7 @@ ghi lại, vì vậy không được suy đoán hoặc bổ sung trong tài li�
 | Công cụ | Mục đích | Đóng góp |
 |---|---|---|
 | Claude | Lập kế hoạch | Hỗ trợ chúng tôi lên kế hoạch dự án và xác định các công việc cần làm. Prompt và nội dung phản hồi chi tiết.... . |
-| GitHub Copilot (trợ lý AI trong VS Code) | Triển khai và kiểm tra, 2026-11-11 | Hỗ trợ cập nhật lưu trữ và nhập/xuất CSV, hiển thị UTF-8 trên console, luồng tìm kiếm và sửa/xóa, ôn tập trắc nghiệm, tùy chỉnh khoảng thời gian ôn tập, tiêu đề/cách định dạng ngày trong CSV, cùng các bài kiểm thử và tài liệu liên quan. |
+| GitHub Copilot (trợ lý AI trong VS Code) | Triển khai, kiểm tra và hỗ trợ soạn báo cáo, 2026-11-11 | Hỗ trợ cập nhật lưu trữ và nhập/xuất CSV, hiển thị UTF-8 trên console, luồng tìm kiếm và sửa/xóa, ôn tập trắc nghiệm, tùy chỉnh khoảng thời gian ôn tập, tiêu đề/cách định dạng ngày trong CSV, bài kiểm thử và tài liệu liên quan. Copilot cũng hỗ trợ lập đề cương, đối chiếu bằng chứng trong repository và soạn bản nháp báo cáo cuối bằng tiếng Việt dựa trên rubric cùng thông tin do nhóm cung cấp. |
 
 ## Kiểm tra và trách nhiệm
 
