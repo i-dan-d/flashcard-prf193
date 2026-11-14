@@ -1,0 +1,10 @@
+^F:\FPTU\FIST_SEMESTER_FPTU\C++\PRF193\FLASHCARD_PROJECT\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SF:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project -BF:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/build --check-stamp-file F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

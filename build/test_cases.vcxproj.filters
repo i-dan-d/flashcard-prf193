@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="18.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="F:\FPTU\Fist_semester_FPTU\C++\PRF193\Flashcard_project\tests\test_cases.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="F:\FPTU\Fist_semester_FPTU\C++\PRF193\Flashcard_project\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{90429940-FE9D-3C0C-A785-24AC4A4FBDA9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

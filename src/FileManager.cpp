@@ -6,6 +6,8 @@
 #include "../include/Word.h"
 
 #include <fstream>
+#include <ctime>
+#include <iomanip>
 #include <sstream>
 #include <stdexcept>
 #include <utility>
@@ -125,6 +127,80 @@ Number parseNumber(const string& value, const string& fieldName) {
     return number;
 }
 
+string formatReviewDate(time_t timestamp) {
+    if (timestamp == 0) {
+        return "";
+    }
+
+    tm localTime = {};
+#ifdef _WIN32
+    if (localtime_s(&localTime, &timestamp) != 0) {
+        throw runtime_error("Could not format review date.");
+    }
+#else
+    if (localtime_r(&timestamp, &localTime) == nullptr) {
+        throw runtime_error("Could not format review date.");
+    }
+#endif
+
+    ostringstream formatted;
+    formatted << put_time(&localTime, "%d/%m/%Y");
+    return formatted.str();
+}
+
+time_t parseReviewDate(const string& value) {
+    if (value.empty()) {
+        return 0;
+    }
+
+    istringstream timestampInput(value);
+    time_t timestamp;
+    timestampInput >> timestamp;
+    if (timestampInput && timestampInput.peek() == char_traits<char>::eof()) {
+        return timestamp;
+    }
+
+    tm localTime = {};
+    char firstSeparator = '\0';
+    char secondSeparator = '\0';
+    istringstream dateInput(value);
+    if (!(dateInput >> localTime.tm_mday >> firstSeparator >>
+          localTime.tm_mon >> secondSeparator >> localTime.tm_year) ||
+        firstSeparator != '/' || secondSeparator != '/' ||
+        dateInput.peek() != char_traits<char>::eof() ||
+        localTime.tm_year < 1000) {
+        throw runtime_error("Invalid next review date in vocabulary CSV.");
+    }
+
+    localTime.tm_mon -= 1;
+    localTime.tm_year -= 1900;
+    localTime.tm_isdst = -1;
+    const int expectedDay = localTime.tm_mday;
+    const int expectedMonth = localTime.tm_mon;
+    const int expectedYear = localTime.tm_year;
+    timestamp = mktime(&localTime);
+    if (timestamp == static_cast<time_t>(-1)) {
+        throw runtime_error("Invalid next review date in vocabulary CSV.");
+    }
+
+    tm verified = {};
+#ifdef _WIN32
+    if (localtime_s(&verified, &timestamp) != 0) {
+        throw runtime_error("Invalid next review date in vocabulary CSV.");
+    }
+#else
+    if (localtime_r(&timestamp, &verified) == nullptr) {
+        throw runtime_error("Invalid next review date in vocabulary CSV.");
+    }
+#endif
+    if (verified.tm_mday != expectedDay || verified.tm_mon != expectedMonth ||
+        verified.tm_year != expectedYear) {
+        throw runtime_error("Invalid next review date in vocabulary CSV.");
+    }
+
+    return timestamp;
+}
+
 void requireFieldCount(const vector<string>& fields, size_t expected) {
     if (fields.size() != expected) {
         throw runtime_error("Invalid number of fields in vocabulary CSV.");
@@ -157,7 +233,7 @@ void FileManager::save(const Deck& deck, const string& path) const {
                << escapeField(word->getPartOfSpeech()) << ','
                << escapeField(word->getMeaning()) << ','
                << word->getReviewCount() << ','
-               << word->getNextReviewDate() << '\n';
+               << formatReviewDate(word->getNextReviewDate()) << '\n';
     }
 
     if (!stream) {
@@ -206,8 +282,7 @@ void FileManager::load(Deck& deck, const string& path) const {
         requireFieldCount(fields, STORAGE_HEADER.size());
         const int id = parseNumber<int>(fields[0], "word ID");
         const int reviewCount = parseNumber<int>(fields[5], "review count");
-        const time_t nextReviewDate =
-            parseNumber<time_t>(fields[6], "next review date");
+        const time_t nextReviewDate = parseReviewDate(fields[6]);
         if (id < 1 || reviewCount < 0) {
             throw runtime_error("Invalid word ID or review count in vocabulary CSV.");
         }

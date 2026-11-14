@@ -1,0 +1,46 @@
+Start testing: Nov 12 14:32 SE Asia Standard Time
+----------------------------------------------------------
+1/2 Testing: word_lister
+1/2 Test: word_lister
+Command: "F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/build/Debug/test_word_lister.exe"
+Directory: F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/build
+"word_lister" start time: Nov 12 14:32 SE Asia Standard Time
+Output:
+----------------------------------------------------------
+WordLister tests passed
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"word_lister" end time: Nov 12 14:32 SE Asia Standard Time
+"word_lister" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/2 Testing: test_cases
+2/2 Test: test_cases
+Command: "F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/build/Debug/test_cases.exe"
+Directory: F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/build
+"test_cases" start time: Nov 12 14:32 SE Asia Standard Time
+Output:
+----------------------------------------------------------
+[PASS] Word factory and string utilities
+[PASS] Deck CRUD and duplicate handling
+[PASS] Deck adopt and next ID
+[PASS] Search by term and meaning
+[PASS] Word listing and formatting
+[PASS] Review scheduling and answers
+[PASS] Review intervals and multiple choice
+[PASS] CSV import validation and quoting
+[PASS] CSV export/import round trip
+[PASS] CSV missing-file error
+[PASS] File manager round trip and errors
+Tests: 11, Passed: 11, Failed: 0
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"test_cases" end time: Nov 12 14:32 SE Asia Standard Time
+"test_cases" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Nov 12 14:32 SE Asia Standard Time

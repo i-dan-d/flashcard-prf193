@@ -15,7 +15,7 @@ Người dùng có thể tạo và quản lý một bộ từ vựng cá nhân n
 - **Xem và sắp xếp:** xem toàn bộ bộ thẻ, sắp xếp theo bảng chữ cái hoặc trạng thái ôn tập.
 - **Ôn tập:** đưa ra các thẻ đến hạn dưới dạng trắc nghiệm với tối đa ba đáp án gây nhiễu lấy ngẫu nhiên từ Deck. Lịch lặp có năm mốc ngày có thể chỉnh trong menu và được lưu tại `data/review_intervals.csv`.
 - **Trao đổi dữ liệu:** nhập và xuất CSV có tiêu đề cột; ngày ôn tiếp theo dùng định dạng `dd/MM/yyyy` để dễ đọc và chỉnh sửa.
-- **Lưu trữ:** tự động nạp và lưu bộ thẻ trong `data/words.csv` để dữ liệu còn sau khi thoát ứng dụng.
+- **Lưu trữ:** tự động nạp và lưu bộ thẻ trong `data/words.csv` để dữ liệu còn sau khi thoát ứng dụng; `nextReviewDate` được ghi theo định dạng `dd/MM/yyyy`.
 
 ## Cách sử dụng
 
@@ -62,19 +62,29 @@ các test đã đăng ký trong `CMakeLists.txt`. CMake tạo quy trình build, 
 CTest không tự tạo test — mỗi test cần kiểm tra kết quả và trả mã thoát khác
 0 khi thất bại.
 
-Cài CMake và một compiler C++17 (ví dụ GCC/G++ hoặc Visual Studio), rồi mở
-PowerShell tại thư mục gốc của dự án (`Flashcard_project`):
+Cài CMake bằng WinGet trong PowerShell (CTest được cài kèm CMake):
+
+```powershell
+winget install --id Kitware.CMake --exact --source winget --accept-package-agreements --accept-source-agreements
+```
+
+Sau khi cài, đóng và mở lại PowerShell để cập nhật `PATH`. Đảm bảo máy đã có
+compiler C++17 (ví dụ GCC/G++ hoặc Visual Studio), rồi mở PowerShell tại thư
+mục gốc của dự án (`Flashcard_project`) và chạy:
 
 ```powershell
 cmake -S . -B build
-cmake --build build
-ctest --test-dir build --output-on-failure
-.\build\Flashcard-Vocabulary-Manager.exe
+cmake --build build --config Debug
+ctest --test-dir build -C Debug --output-on-failure
+.\build\Debug\Flashcard-Vocabulary-Manager.exe
 ```
 
 `cmake -S . -B build` cấu hình project và sinh build files trong `build`;
-`cmake --build build` biên dịch ứng dụng và test; `ctest` chạy test và hiển
-thị lỗi nếu có. Có thể build riêng ứng dụng với
+`cmake --build build --config Debug` biên dịch ứng dụng và test ở cấu hình
+Debug; `ctest --test-dir build -C Debug` chạy test ở đúng cấu hình và hiển
+thị lỗi nếu có. Với generator nhiều cấu hình như Visual Studio, cần chỉ định
+cấu hình khi build và chạy CTest; file thực thi được đặt trong thư mục cấu
+hình, ví dụ `build/Debug`. Có thể build riêng ứng dụng với
 `cmake --build build --target Flashcard-Vocabulary-Manager`, hoặc chỉ build
 các test với `cmake --build build --target test_cases test_word_lister`.
 

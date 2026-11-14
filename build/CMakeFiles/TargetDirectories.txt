@@ -1,0 +1,11 @@
+F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/build/CMakeFiles/Experimental.dir
+F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/build/CMakeFiles/Nightly.dir
+F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/build/CMakeFiles/Continuous.dir
+F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/build/CMakeFiles/NightlyMemoryCheck.dir
+F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/build/CMakeFiles/flashcard_vocabulary_manager_core.dir
+F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/build/CMakeFiles/Flashcard-Vocabulary-Manager.dir
+F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/build/CMakeFiles/test_word_lister.dir
+F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/build/CMakeFiles/test_cases.dir
+F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/build/CMakeFiles/RUN_TESTS.dir
+F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/build/CMakeFiles/ALL_BUILD.dir
+F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/build/CMakeFiles/ZERO_CHECK.dir

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="18.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="F:\FPTU\Fist_semester_FPTU\C++\PRF193\Flashcard_project\build\CMakeFiles\e8d7507bba1aa3189a098fbcde92cb3f\RUN_TESTS_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{97B9A7BC-0F3A-3A02-AFC9-801EEE30D846}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,10 @@
+^F:\FPTU\FIST_SEMESTER_FPTU\C++\PRF193\FLASHCARD_PROJECT\BUILD\CMAKEFILES\E8D7507BBA1AA3189A098FBCDE92CB3F\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SF:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project -BF:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/build/Flashcard-Vocabulary-Manager.slnx
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

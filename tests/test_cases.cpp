@@ -441,6 +441,9 @@ void testFileManagerRoundTripAndErrors() {
     files.save(original, csvPath.string());
     require(files.exists(csvPath.string()),
             "save should create a file recognized by exists");
+    require(readTextFile(csvPath).find(",3,15/11/2023\n") !=
+                std::string::npos,
+            "saved review dates should use the readable dd/MM/yyyy format");
 
     Deck loaded;
     loaded.addWord("discarded", "noun", "old data");
@@ -449,7 +452,8 @@ void testFileManagerRoundTripAndErrors() {
                 loaded.findByTerm("apple")->getTypeName() == "Vocabulary" &&
                 loaded.findByTerm("look up")->getTypeName() == "Phrase" &&
                 loaded.findByTerm("apple")->getReviewCount() == 3 &&
-                loaded.findByTerm("apple")->getNextReviewDate() == 1700001000 &&
+                loaded.findByTerm("apple")->getNextReviewDate() ==
+                    localDateTimestamp(2023, 11, 15) &&
                 loaded.findByTerm("look up")->getMeaning() ==
                     "search, \"find\"\nlook for",
             "CSV load should restore words, types, review state, and quoting");
@@ -475,6 +479,15 @@ void testFileManagerRoundTripAndErrors() {
                 loaded.findByTerm("apple")->getId() == 1 &&
                 loaded.findByTerm("look up")->getTypeName() == "Phrase",
             "load should accept the existing three-column CSV format");
+
+    const auto legacyStoragePath = temporary.file("legacy_storage.csv");
+    writeTextFile(legacyStoragePath,
+                  "id,type,term,partOfSpeech,meaning,reviewCount,"
+                  "nextReviewDate\n"
+                  "1,Vocabulary,apple,noun,fruit,3,1700001000\n");
+    files.load(loaded, legacyStoragePath.string());
+    require(loaded.findByTerm("apple")->getNextReviewDate() == 1700001000,
+            "load should continue accepting stored Unix timestamps");
 }
 
 }  // namespace

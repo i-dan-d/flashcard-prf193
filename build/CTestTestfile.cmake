@@ -1,0 +1,36 @@
+# CMake generated Testfile for 
+# Source directory: F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project
+# Build directory: F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/build
+# 
+# This file includes the relevant testing commands required for 
+# testing this directory and lists subdirectories to be tested as well.
+if(CTEST_CONFIGURATION_TYPE MATCHES "^([Dd][Ee][Bb][Uu][Gg])$")
+  add_test(word_lister "F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/build/Debug/test_word_lister.exe")
+  set_tests_properties(word_lister PROPERTIES  _BACKTRACE_TRIPLES "F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/CMakeLists.txt;39;add_test;F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/CMakeLists.txt;0;")
+elseif(CTEST_CONFIGURATION_TYPE MATCHES "^([Rr][Ee][Ll][Ee][Aa][Ss][Ee])$")
+  add_test(word_lister "F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/build/Release/test_word_lister.exe")
+  set_tests_properties(word_lister PROPERTIES  _BACKTRACE_TRIPLES "F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/CMakeLists.txt;39;add_test;F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/CMakeLists.txt;0;")
+elseif(CTEST_CONFIGURATION_TYPE MATCHES "^([Mm][Ii][Nn][Ss][Ii][Zz][Ee][Rr][Ee][Ll])$")
+  add_test(word_lister "F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/build/MinSizeRel/test_word_lister.exe")
+  set_tests_properties(word_lister PROPERTIES  _BACKTRACE_TRIPLES "F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/CMakeLists.txt;39;add_test;F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/CMakeLists.txt;0;")
+elseif(CTEST_CONFIGURATION_TYPE MATCHES "^([Rr][Ee][Ll][Ww][Ii][Tt][Hh][Dd][Ee][Bb][Ii][Nn][Ff][Oo])$")
+  add_test(word_lister "F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/build/RelWithDebInfo/test_word_lister.exe")
+  set_tests_properties(word_lister PROPERTIES  _BACKTRACE_TRIPLES "F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/CMakeLists.txt;39;add_test;F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/CMakeLists.txt;0;")
+else()
+  add_test(word_lister NOT_AVAILABLE)
+endif()
+if(CTEST_CONFIGURATION_TYPE MATCHES "^([Dd][Ee][Bb][Uu][Gg])$")
+  add_test(test_cases "F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/build/Debug/test_cases.exe")
+  set_tests_properties(test_cases PROPERTIES  _BACKTRACE_TRIPLES "F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/CMakeLists.txt;43;add_test;F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/CMakeLists.txt;0;")
+elseif(CTEST_CONFIGURATION_TYPE MATCHES "^([Rr][Ee][Ll][Ee][Aa][Ss][Ee])$")
+  add_test(test_cases "F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/build/Release/test_cases.exe")
+  set_tests_properties(test_cases PROPERTIES  _BACKTRACE_TRIPLES "F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/CMakeLists.txt;43;add_test;F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/CMakeLists.txt;0;")
+elseif(CTEST_CONFIGURATION_TYPE MATCHES "^([Mm][Ii][Nn][Ss][Ii][Zz][Ee][Rr][Ee][Ll])$")
+  add_test(test_cases "F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/build/MinSizeRel/test_cases.exe")
+  set_tests_properties(test_cases PROPERTIES  _BACKTRACE_TRIPLES "F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/CMakeLists.txt;43;add_test;F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/CMakeLists.txt;0;")
+elseif(CTEST_CONFIGURATION_TYPE MATCHES "^([Rr][Ee][Ll][Ww][Ii][Tt][Hh][Dd][Ee][Bb][Ii][Nn][Ff][Oo])$")
+  add_test(test_cases "F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/build/RelWithDebInfo/test_cases.exe")
+  set_tests_properties(test_cases PROPERTIES  _BACKTRACE_TRIPLES "F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/CMakeLists.txt;43;add_test;F:/FPTU/Fist_semester_FPTU/C++/PRF193/Flashcard_project/CMakeLists.txt;0;")
+else()
+  add_test(test_cases NOT_AVAILABLE)
+endif()
